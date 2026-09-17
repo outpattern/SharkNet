@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "source": "IEEE MA-L OUI registry (public). Curated subset of well-known, long-stable assignments.",
+    "note": "Store vendor -> OUI prefixes only; SHARKmac generates the remaining 3 bytes at runtime (never stores full MACs). Extensible: add vendors/prefixes here without touching code. An optional online refresh from the IEEE registry can be added later.",
+    "updated": "2026-09"
+  },
+  "vendors": {
+    "Apple": ["00:03:93", "3C:07:54", "A4:5E:60", "F0:DB:F8", "88:66:5A", "AC:BC:32"],
+    "Samsung": ["00:00:F0", "34:23:87", "5C:0A:5B", "E8:50:8B", "8C:77:12"],
+    "Intel": ["00:1B:21", "3C:97:0E", "A0:88:69", "34:13:E8", "8C:16:45"],
+    "Dell": ["00:14:22", "18:03:73", "B8:CA:3A", "F8:BC:12", "D4:BE:D9"],
+    "HP": ["00:1B:78", "3C:D9:2B", "70:5A:0F", "9C:B6:54"],
+    "Lenovo": ["00:59:07", "54:EE:75", "70:72:0D"],
+    "ASUS": ["00:1B:FC", "04:D9:F5", "2C:56:DC", "AC:22:0B"],
+    "Microsoft": ["00:50:F2", "00:15:5D", "00:17:FA"],
+    "TP-Link": ["34:F7:16", "40:ED:00", "50:C7:BF", "14:CC:20"],
+    "Cisco": ["00:00:0C", "00:1A:2F", "00:25:83", "F4:CF:E2"],
+    "Realtek": ["00:E0:4C", "52:54:00"],
+    "Huawei": ["00:18:82", "28:6E:D4", "48:46:FB"],
+    "Xiaomi": ["00:9E:C8", "64:09:80", "F8:A4:5F"],
+    "Sony": ["00:01:4A", "00:13:A9", "FC:0F:E6"],
+    "Google": ["00:1A:11", "3C:5A:B4", "F4:F5:E8"],
+    "Raspberry Pi": ["B8:27:EB", "DC:A6:32", "E4:5F:01"]
+  }
+}

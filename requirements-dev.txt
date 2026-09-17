@@ -1,0 +1,7 @@
+# SharkNet development / test dependencies.
+# scapy is NO LONGER a runtime dependency (removed at Gate 6.4). It is used ONLY
+# by the test suite as the golden oracle proving the raw parsers and the native
+# Npcap backend are byte/field-equivalent to scapy. Install these to run pytest.
+-r requirements.txt
+scapy>=2.5.0
+pytest>=7.0

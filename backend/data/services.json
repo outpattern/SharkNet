@@ -1,0 +1,755 @@
+{
+ "schema_version": 1,
+ "version": 2,
+ "_comment": "SharkNet service catalog (Phase 7 research refresh). Data-driven blocking: a domain suffix-matches a keyword (DNS/TLS-SNI/HTTP-Host). Generic shared clouds (akamai/cloudfront/fastly/amazonaws/googleapis roots) are EXCLUDED to avoid collateral; where playback rides a shared CDN the block is best-effort (see notes + confidence). QUIC=true services lean on UDP/443 -> scoped IP pinning, no decryption. No live updates: this file is the static known-good baseline (see services_update.py).",
+ "services": [
+  {
+   "id": "youtube",
+   "name": "YouTube",
+   "category": "streaming",
+   "regions": [
+    "global"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "ggpht.com",
+    "googlevideo.com",
+    "youtu.be",
+    "youtube.com",
+    "youtubei.googleapis.com",
+    "ytimg.com"
+   ],
+   "notes": "googlevideo.com = playback; heavy QUIC (UDP/443) so scoped IP-drop needed. youtubei.googleapis.com is host-specific (not the shared googleapis root)."
+  },
+  {
+   "id": "netflix",
+   "name": "Netflix",
+   "category": "streaming",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "netflix.com",
+    "nflxext.com",
+    "nflximg.net",
+    "nflxso.net",
+    "nflxvideo.net"
+   ],
+   "notes": "nflxvideo.net = Open Connect playback (TCP/TLS, no meaningful QUIC). All Netflix-owned."
+  },
+  {
+   "id": "disney-plus",
+   "name": "Disney+",
+   "category": "streaming",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "disney-plus.net",
+    "disneyplus.com",
+    "dssedge.com",
+    "dssott.com"
+   ],
+   "notes": "dssott.com = BAMTech playback (also serves ESPN+/Hulu-live). Shared bamgrid.com omitted to avoid cross-service collateral; raw segments on shared CDN = best-effort."
+  },
+  {
+   "id": "amazon-prime-video",
+   "name": "Amazon Prime Video",
+   "category": "streaming",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "aiv-cdn.net",
+    "aiv-delivery.net",
+    "amazonvideo.com",
+    "atv-ps.amazon.com",
+    "primevideo.com",
+    "pv-cdn.net"
+   ],
+   "notes": "amazonvideo.com + aiv-cdn.net = video delivery; atv-ps.amazon.com host-specific (won't touch amazon.com retail). Some segments on shared CloudFront/Akamai = best-effort."
+  },
+  {
+   "id": "apple-tv-plus",
+   "name": "Apple TV+",
+   "category": "streaming",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "LIKELY",
+   "domains": [
+    "hls-svod.itunes.apple.com",
+    "play-edge.itunes.apple.com",
+    "tv.apple.com",
+    "uts-api.itunes.apple.com"
+   ],
+   "notes": "hls-svod.itunes.apple.com = HLS manifest (host-specific, not the shared itunes root). Segments can fail over to shared Apple/Akamai CDN = best-effort."
+  },
+  {
+   "id": "crunchyroll",
+   "name": "Crunchyroll",
+   "category": "streaming",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "crunchyroll.com",
+    "crunchyrollcdn.com"
+   ],
+   "notes": "crunchyrollcdn.com = video playback (vod-*.crunchyrollcdn.com). vrv.co removed (VRV shut down May 2024)."
+  },
+  {
+   "id": "mubi",
+   "name": "MUBI",
+   "category": "streaming",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "LIKELY",
+   "domains": [
+    "mubi.com",
+    "mubicdn.net"
+   ],
+   "notes": "mubicdn.net = MUBI's own video CDN. Tight 2-domain set covers app + playback."
+  },
+  {
+   "id": "dazn",
+   "name": "DAZN",
+   "category": "streaming",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "LIKELY",
+   "domains": [
+    "dazn-api.com",
+    "dazn.com",
+    "dazndn.com",
+    "daznservices.com",
+    "indazn.com"
+   ],
+   "notes": "indazn.com carries API + DASH manifests. Also a private in-ISP CDN + CloudFront for segments = best-effort. All DAZN-owned."
+  },
+  {
+   "id": "max",
+   "name": "Max (HBO Max)",
+   "category": "streaming",
+   "regions": [
+    "us",
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "discomax.com",
+    "h264.io",
+    "hbomax.com",
+    "max.com"
+   ],
+   "notes": "max.com = app/auth/API/manifest; discomax.com = WBD backend; h264.io = WBD media (SNI-blockable, but SHARED with Discovery+). Raw segments shared CDN = best-effort. QUIC-capable CDNs."
+  },
+  {
+   "id": "hulu",
+   "name": "Hulu",
+   "category": "streaming",
+   "regions": [
+    "us"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "hulu.com",
+    "huluim.com",
+    "hulustream.com"
+   ],
+   "notes": "hulu.com=app/auth/API, hulustream.com=streaming, huluim.com=assets. Playback edge on shared Disney bamgrid.com = best-effort for raw video, but login/browse/manifest block is decisive."
+  },
+  {
+   "id": "peacock",
+   "name": "Peacock",
+   "category": "streaming",
+   "regions": [
+    "us"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "peacock.com",
+    "peacocktv.com"
+   ],
+   "notes": "All operational endpoints (ovp/play/id/ssai) live under peacocktv.com. Segments on shared Akamai/Fastly = best-effort; manifest-host block breaks playback."
+  },
+  {
+   "id": "paramount-plus",
+   "name": "Paramount+",
+   "category": "streaming",
+   "regions": [
+    "us",
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "cbsaavideo.com",
+    "cbsivideo.com",
+    "paramountplus.com",
+    "pplusstatic.com"
+   ],
+   "notes": "paramountplus.com=app/auth, cbsivideo.com/cbsaavideo.com=video backend, pplusstatic.com=static. Shared cbsi.com/paramount.tech rejected. Ads/DRM shared = best-effort."
+  },
+  {
+   "id": "espn-plus",
+   "name": "ESPN+",
+   "category": "streaming",
+   "regions": [
+    "us"
+   ],
+   "quic": false,
+   "confidence": "BEST_EFFORT",
+   "domains": [
+    "espn.com",
+    "espncdn.com"
+   ],
+   "notes": "Entitlement/playback run on shared Disney bamgrid.com/dssott.com (can't block without breaking Disney+/Hulu) = best-effort for video. Blocking espn.com makes the app unusable (also blocks free ESPN scores — usually intended)."
+  },
+  {
+   "id": "tubi",
+   "name": "Tubi",
+   "category": "streaming",
+   "regions": [
+    "us",
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "adrise.tv",
+    "tubi.io",
+    "tubi.video",
+    "tubitv.com"
+   ],
+   "notes": "adrise.tv = Tubi's dedicated backend (API/manifest/DRM license). Raw segments on shared Akamai/CloudFront = best-effort. Fox-owned, ad-supported."
+  },
+  {
+   "id": "pluto-tv",
+   "name": "Pluto TV",
+   "category": "streaming",
+   "regions": [
+    "us",
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "pluto.tv",
+    "plutotv.net"
+   ],
+   "notes": "All live endpoints (api/stitcher/images/players) under pluto.tv. Ad-stitched/VOD segments on shared CDN = best-effort. Paramount-owned."
+  },
+  {
+   "id": "bbc-iplayer",
+   "name": "BBC iPlayer",
+   "category": "streaming",
+   "regions": [
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "bbc.co.uk",
+    "bbci.co.uk"
+   ],
+   "notes": "iPlayer API/auth/player under bbc.co.uk + bbci.co.uk; blocking stops playlist/entitlement. Segments on shared CDN = best-effort. Over-blocks all BBC (acceptable, real domain). UK geo-locked."
+  },
+  {
+   "id": "itvx",
+   "name": "ITVX",
+   "category": "streaming",
+   "regions": [
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "itv.com",
+    "itvstatic.com"
+   ],
+   "notes": "itv.com = ITVX playlist/auth/API; itvstatic.com = ITV static assets. Media multi-CDN (Fastly/MainStreaming/Akamai) = best-effort. Over-blocks all ITV web. UK-only."
+  },
+  {
+   "id": "channel-4",
+   "name": "Channel 4",
+   "category": "streaming",
+   "regions": [
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "c4assets.com",
+    "channel4.com"
+   ],
+   "notes": "channel4.com = API/ads; c4assets.com = Channel 4's dedicated media CDN incl. DASH manifests (Host stays *.c4assets.com even Akamai-fronted). UK-only."
+  },
+  {
+   "id": "now-sky",
+   "name": "NOW",
+   "category": "streaming",
+   "regions": [
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "LIKELY",
+   "domains": [
+    "nowtv.com"
+   ],
+   "notes": "nowtv.com = NOW OTT API/auth. now.com REMOVED (that is PCCW Hong Kong 'NOW', a different service). Broad sky.com excluded. Media on shared Akamai/CloudFront = best-effort. UK/IE."
+  },
+  {
+   "id": "canal-plus",
+   "name": "Canal+",
+   "category": "streaming",
+   "regions": [
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "canal-plus.com",
+    "canal.fr",
+    "canalplus-cdn.net",
+    "canalplus.com",
+    "mycanal.fr"
+   ],
+   "notes": "Fully service-dedicated: canalplus.com=API, mycanal.fr=player, canal-plus.com=media hub, canalplus-cdn.net=Canal+'s OWN CDN (live+VOD). France."
+  },
+  {
+   "id": "rtl-plus",
+   "name": "RTL+",
+   "category": "streaming",
+   "regions": [
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "LIKELY",
+   "domains": [
+    "rtlplus.de",
+    "tvnow.de"
+   ],
+   "notes": "rtlplus.de = web/login; tvnow.de = the RTL+ OTT player-BFF/manifest backbone (app is de.rtli.tvnow). Broad rtl.de + the linear RTLup rtl-plus.de excluded. DACH+LU."
+  },
+  {
+   "id": "movistar-plus",
+   "name": "Movistar+",
+   "category": "streaming",
+   "regions": [
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "LIKELY",
+   "domains": [
+    "movistarplus.es"
+   ],
+   "notes": "movistarplus.es = frontend/player/account; blocking breaks auth + player init. Media/DRM ride shared Telefonica platform (not safe to base-block) = best-effort. Spain."
+  },
+  {
+   "id": "viaplay",
+   "name": "Viaplay",
+   "category": "streaming",
+   "regions": [
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "LIKELY",
+   "domains": [
+    "viaplay.com",
+    "viaplay.tv"
+   ],
+   "notes": "viaplay.com = central entitlement/login API (all country frontends call it); viaplay.tv = CDN/subs/infra. Media CloudFront + NPAW multi-CDN = best-effort. Nordics + NL."
+  },
+  {
+   "id": "skyshowtime",
+   "name": "SkyShowtime",
+   "category": "streaming",
+   "regions": [
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "skyshowtime.com"
+   ],
+   "notes": "Single-domain kill: clients/auth/API/media-CDN all under *.skyshowtime.com even where CDN-fronted. Peacock/Sky tech, ~20+ EU markets."
+  },
+  {
+   "id": "molotov",
+   "name": "Molotov",
+   "category": "streaming",
+   "regions": [
+    "eu"
+   ],
+   "quic": true,
+   "confidence": "LIKELY",
+   "domains": [
+    "molotov.tv"
+   ],
+   "notes": "molotov.tv = whole service (fapi front-API/app/images/account). DASH segment CDN third-party = best-effort, but fapi block is decisive. Do NOT confuse with the molotovtv.com clone. France."
+  },
+  {
+   "id": "shahid",
+   "name": "Shahid",
+   "category": "streaming",
+   "regions": [
+    "mena"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "shahid.mbc.net",
+    "shahid.net"
+   ],
+   "notes": "MBC Shahid: shahid.net = app/API/media hosts; shahid.mbc.net host-specific (not bare mbc.net). Segments on shared CDN = best-effort."
+  },
+  {
+   "id": "watch-it",
+   "name": "WATCH IT",
+   "category": "streaming",
+   "regions": [
+    "mena"
+   ],
+   "quic": false,
+   "confidence": "LIKELY",
+   "domains": [
+    "watchit.com"
+   ],
+   "notes": "watchit.com covers app (com.watchit.vod)/API/site. Video via Brightcove (shared) = best-effort. Egyptian (United Media Services)."
+  },
+  {
+   "id": "tod",
+   "name": "TOD",
+   "category": "streaming",
+   "regions": [
+    "mena"
+   ],
+   "quic": false,
+   "confidence": "LIKELY",
+   "domains": [
+    "tod.tv"
+   ],
+   "notes": "tod.tv = app (com.todtv.tod)/API/site. beIN-group MENA OTT; live+VOD segments on shared CDN = best-effort. Separate from the bein entry."
+  },
+  {
+   "id": "osn-plus",
+   "name": "OSN+",
+   "category": "streaming",
+   "regions": [
+    "mena"
+   ],
+   "quic": false,
+   "confidence": "LIKELY",
+   "domains": [
+    "osn.com",
+    "osnplus.com"
+   ],
+   "notes": "OSN-owned: go.osn.com (live app) + api.osnplus.com caught by SNI suffix regardless of Fastly/Incapsula front. Playback shared = best-effort. ex-Wavo."
+  },
+  {
+   "id": "yango-play",
+   "name": "Yango Play",
+   "category": "streaming",
+   "regions": [
+    "mena"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "play.yango.com",
+    "yangoplay.com"
+   ],
+   "notes": "SCOPED: play.yango.com (won't touch the yango.com taxi/delivery super-app) + apex yangoplay.com. Yandex infra, HTTP/3-heavy = scoped UDP/443 drop needed."
+  },
+  {
+   "id": "viu",
+   "name": "Viu",
+   "category": "streaming",
+   "regions": [
+    "mena"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "viu.com",
+    "viuapi.io",
+    "viuing.io"
+   ],
+   "notes": "viuapi.io = API; three Viu-owned domains. Media multi-CDN (Akamai/CloudFront/Tencent/BytePlus) = best-effort for playback."
+  },
+  {
+   "id": "starzplay",
+   "name": "STARZPLAY",
+   "category": "streaming",
+   "regions": [
+    "mena"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "starzplay.com"
+   ],
+   "notes": "starzplay.com suffix covers arabia.starzplay.com + API + app (com.parsifal.starz). ALSO now hosts the ADMN/ADtv section (ADtv app retired Nov 2025). Segments on CloudFront = best-effort."
+  },
+  {
+   "id": "bein",
+   "name": "beIN Sports/Connect",
+   "category": "streaming",
+   "regions": [
+    "mena",
+    "eu"
+   ],
+   "quic": false,
+   "confidence": "LIKELY",
+   "domains": [
+    "bein.net",
+    "beinconnect.com",
+    "beinsports.com"
+   ],
+   "notes": "beinsports.com (news/app), bein.net (connect.bein.net = beIN CONNECT), beinconnect.com (legacy MENA/still-live TR). Live video on shared CDN = best-effort. TOD is the newer MENA OTT."
+  },
+  {
+   "id": "weyyak",
+   "name": "Weyyak",
+   "category": "streaming",
+   "regions": [
+    "mena"
+   ],
+   "quic": false,
+   "confidence": "LIKELY",
+   "domains": [
+    "weyyak.com"
+   ],
+   "notes": "Current apex weyyak.com (api.weyyak.com caught by suffix). Runs on Zee/Z5 backend but z5.com/zee5.com excluded (over-blocks ZEE5). Media shared CDN = best-effort."
+  },
+  {
+   "id": "rotana",
+   "name": "Rotana",
+   "category": "streaming",
+   "regions": [
+    "mena"
+   ],
+   "quic": false,
+   "confidence": "LIKELY",
+   "domains": [
+    "rotana.net"
+   ],
+   "notes": "rotana.net (app net.rotana) covers live TV + VOD + subdomains. Rotana Media (Saudi). Segment CDN shared = best-effort."
+  },
+  {
+   "id": "jawwy-tv",
+   "name": "Jawwy TV (STC)",
+   "category": "streaming",
+   "regions": [
+    "mena"
+   ],
+   "quic": false,
+   "confidence": "LIKELY",
+   "domains": [
+    "jawwy.tv"
+   ],
+   "notes": "jawwy.tv = Intigral/STC OTT (distinct from stc tv and the jawwy.sa telecom portal). Playback via shared CDN = best-effort."
+  },
+  {
+   "id": "spotify",
+   "name": "Spotify",
+   "category": "music",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "pscdn.co",
+    "scdn.co",
+    "spotify.com",
+    "spotifycdn.com",
+    "spotifycdn.net"
+   ],
+   "notes": "spotify.com=app/API, scdn.co/spotifycdn.com/spotifycdn.net=images/config CDN, pscdn.co=podcast CDN. Music audio rides shared Fastly/Akamai (audio-cf/ak) = best-effort for playback; browse/login/API fully blocked."
+  },
+  {
+   "id": "anghami",
+   "name": "Anghami",
+   "category": "music",
+   "regions": [
+    "mena"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "anghami.com",
+    "anghcdn.co"
+   ],
+   "notes": "Self-contained: anghami.com=app/API, anghcdn.co=artwork/audio/video CDN. All app+media resolve under these two. MENA-focused."
+  },
+  {
+   "id": "soundcloud",
+   "name": "SoundCloud",
+   "category": "music",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "sndcdn.com",
+    "soundcloud.com"
+   ],
+   "notes": "soundcloud.com=app/api-v2, sndcdn.com=HLS audio + artwork CDN. Two domains fully cover app + playback (name-blockable via SNI even though CDN-fronted)."
+  },
+  {
+   "id": "apple-music",
+   "name": "Apple Music",
+   "category": "music",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "music.apple.com"
+   ],
+   "notes": "music.apple.com = web player + amp-api. Blocks web player/catalog/API. Native-app audio rides shared itunes.apple.com/mzstatic (deliberately NOT blocked) = best-effort for native playback."
+  },
+  {
+   "id": "tiktok",
+   "name": "TikTok",
+   "category": "social",
+   "regions": [
+    "global"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "byteoversea.com",
+    "ibytedtos.com",
+    "tiktok.com",
+    "tiktokcdn-eu.com",
+    "tiktokcdn-us.com",
+    "tiktokcdn.com",
+    "tiktokv.com"
+   ],
+   "notes": "tiktok.com=core, tiktokv.com=API, tiktokcdn*.com=video CDN (+ regional -us/-eu), byteoversea.com/ibytedtos.com=ByteDance backend. HEAVY QUIC on ByteDance's own edge -> scoped UDP/443 drop ESSENTIAL."
+  },
+  {
+   "id": "instagram",
+   "name": "Instagram",
+   "category": "social",
+   "regions": [
+    "global"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "cdninstagram.com",
+    "instagram.com"
+   ],
+   "notes": "instagram.com=app/graph API, cdninstagram.com=IG media. Remaining media on shared Meta fbcdn.net (under facebook) = best-effort. HEAVY QUIC (Meta mvfst) -> scoped UDP/443 drop."
+  },
+  {
+   "id": "facebook",
+   "name": "Facebook",
+   "category": "social",
+   "regions": [
+    "global"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "facebook.com",
+    "facebook.net",
+    "fb.com",
+    "fbcdn.net",
+    "fbsbx.com"
+   ],
+   "notes": "facebook.com=core, fbcdn.net=Meta media CDN (SHARED across FB/IG/WA media by design), fbsbx.com=attachments, fb.com=redirect, facebook.net=SDK/pixel/Login. HEAVY QUIC (mvfst)."
+  },
+  {
+   "id": "snapchat",
+   "name": "Snapchat",
+   "category": "social",
+   "regions": [
+    "global"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "sc-cdn.net",
+    "snap.com",
+    "snapchat.com",
+    "snapkit.com"
+   ],
+   "notes": "snapchat.com=core, sc-cdn.net=Snap media CDN, snap.com=corporate/ads, snapkit.com=Snap Kit/Login SDK. HEAVY QUIC (Cronet); much media on shared Google Cloud IPs so IP-drop stays tightly scoped = best-effort."
+  },
+  {
+   "id": "whatsapp",
+   "name": "WhatsApp",
+   "category": "messaging",
+   "regions": [
+    "global"
+   ],
+   "quic": true,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "whatsapp.com",
+    "whatsapp.net"
+   ],
+   "notes": "whatsapp.com=registration/web/API, whatsapp.net=chat edge + media (g/mmg/scontent.whatsapp.net). Core chat = long-lived TLS/TCP so the name block stops messaging. Calls use non-443 UDP (RTP) = outside 443/QUIC scope."
+  },
+  {
+   "id": "twitter-x",
+   "name": "Twitter/X",
+   "category": "social",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "t.co",
+    "twimg.com",
+    "twitter.com",
+    "x.com"
+   ],
+   "notes": "x.com=current app/API, twitter.com=legacy/redirect, twimg.com=image/video CDN (Fastly-hosted but the twimg.com NAME is blockable), t.co=link wrapper. DNS+SNI name block suffices."
+  },
+  {
+   "id": "pubg-games",
+   "name": "PUBG/Games",
+   "category": "gaming",
+   "regions": [
+    "global"
+   ],
+   "quic": false,
+   "confidence": "CONFIRMED",
+   "domains": [
+    "epicgames.com",
+    "igamecj.com",
+    "proximabeta.com",
+    "pubg.com",
+    "pubgmobile.com",
+    "steampowered.com"
+   ],
+   "notes": "pubgmobile.com/igamecj.com/proximabeta.com = PUBG Mobile (Tencent/Proxima), pubg.com = PUBG PC/console (Krafton). steampowered.com/epicgames.com = broad Steam/Epic launcher domains (block the ENTIRE platform) - deliberate mixed bucket. Live gameplay is non-443 UDP = outside 443/QUIC scope."
+  }
+ ]
+}

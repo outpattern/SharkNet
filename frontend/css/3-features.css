@@ -1,0 +1,651 @@
+/* ============================================================
+   SharkNet v2 — modern / futuristic / minimal redesign layer
+   ============================================================ */
+/* Inter drives Latin; 'Noto Sans Arabic' is the automatic fallback the browser
+   picks for Arabic glyphs (Inter has none), so Arabic renders cleanly while
+   Latin text stays Inter. Type system stays Inter / Orbitron / Consolas only. */
+body{font-family:'Inter','Noto Sans Arabic','Segoe UI',system-ui,sans-serif;letter-spacing:.1px}
+:root{--radius:14px}
+:root:not([data-theme="light"]){
+  --bg-deep:#070810;--bg-card:#0e1018;--bg-card-2:#141826;--bg-hover:#1a1f30;
+  --line:#1e2333;--bg-panel:rgba(10,12,20,.75);--dim:#7b849c;
+}
+body{background:
+  radial-gradient(1100px 520px at 82% -12%, rgba(var(--accent-rgb),.07), transparent 62%),
+  radial-gradient(900px 500px at 8% 108%, rgba(var(--success-rgb),.05), transparent 60%),
+  var(--bg-deep);}
+
+/* brand wordmark — original shield logo + Orbitron wordmark */
+.brand{gap:12px}
+.brand .name{font-family:'Orbitron',sans-serif;font-weight:800;font-size:18px;
+  letter-spacing:3px;color:var(--text);text-shadow:0 0 18px rgba(var(--accent-rgb),.22)}
+.brand .name b{font-weight:900;color:var(--accent)}
+.brand .logo{width:34px;height:34px;object-fit:contain;
+  filter:drop-shadow(0 0 10px rgba(var(--accent-rgb),.45))}
+.stat-val,.t-val,.gg-val,.def-title,.a-title,.dua-title{font-family:'Inter',sans-serif}
+
+/* utility buttons (top-right) */
+.actions{gap:10px}
+.ubtn{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;
+  background:var(--bg-card-2);border:1px solid var(--line);cursor:pointer;font-size:16px;
+  transition:.15s;padding:0}
+.ubtn:hover{border-color:var(--accent);box-shadow:var(--glow);transform:translateY(-1px)}
+.ubtn span{line-height:1}
+
+/* segmented toggle (units / list-map) */
+.seg{display:inline-flex;background:var(--bg-card-2);border:1px solid var(--line);
+  border-radius:11px;overflow:hidden;padding:3px;gap:3px}
+.seg button{background:none;border:none;color:var(--dim);padding:6px 12px;cursor:pointer;
+  font-size:12px;font-weight:600;border-radius:8px;transition:.15s;font-family:inherit}
+.seg button:hover{color:var(--text)}
+.seg button.on{background:var(--accent);color:var(--on-accent)}
+.unit-seg button{min-width:46px}
+
+/* control card — glow when active */
+.control-card{border-radius:18px;transition:.25s;position:relative;overflow:hidden}
+.control-card.active{border-color:rgba(var(--success-rgb),.4);box-shadow:0 0 0 1px rgba(var(--success-rgb),.15),0 0 30px rgba(var(--success-rgb),.06)}
+/* status pill is a real DOM element (#ccStatus) so it localizes; positioned like
+   the old ::before. Hidden when empty (idle). RTL: pin to the start edge. */
+.cc-status{position:absolute;top:12px;right:20px;font-size:9px;font-weight:700;
+  letter-spacing:1.5px;color:var(--success)}
+.cc-status:empty{display:none}
+.control-card.scanning .cc-status{color:var(--warning)}
+html[dir="rtl"] .cc-status{right:auto;left:20px}
+.btn-primary{border-radius:11px;padding:10px 18px;letter-spacing:.3px}
+
+/* device rows — cleaner */
+.row{border-radius:14px}
+.dev .ico{cursor:pointer;transition:.15s;border-radius:10px}
+.dev .ico:hover{transform:scale(1.12)}
+.dtl{background:var(--bg-card-2);border:1px solid var(--line);color:var(--dim);
+  border-radius:8px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;transition:.15s}
+.dtl:hover{color:var(--accent);border-color:var(--accent)}
+
+/* footer */
+.foot{padding:9px 22px;font-size:11px}
+.foot-left{display:flex;align-items:center;gap:9px}
+.conn{font-size:11px}.conn.on{color:var(--success)}.conn.off{color:var(--danger)}
+.ver{color:var(--dim)}.ver b{color:var(--text);font-weight:600;font-family:'Inter',sans-serif}
+.foot-note{color:var(--dim);opacity:.7}
+.dedication{font-size:12px}
+
+/* subtle card depth */
+.tile,.stat,.control-card,.defender,.modal-box{box-shadow:0 2px 18px rgba(0,0,0,.22)}
+
+/* device row: add a details column at the end */
+.devices-head{grid-template-columns:2.3fr 1.7fr 1.9fr 2.3fr 44px}
+.row{grid-template-columns:2.3fr 1.7fr 1.9fr 2.3fr 44px}
+.row-more{display:flex;justify-content:center}
+.row-more .dtl{padding:6px 9px;font-size:14px}
+
+/* prevent long device names/badges overflowing into the address column */
+.dev{overflow:hidden}
+.dev .meta{overflow:hidden;min-width:0}
+.dev .nm{flex-wrap:nowrap}
+.dev .nm input{max-width:150px}
+/* status pill sits on the vendor line (more room than the name line) */
+.dev .vdrow{display:flex;align-items:center;gap:8px;min-width:0}
+.dev .vd{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mstat{flex:none}
+
+/* ============ SVG icons + compact proportions (v2 design pass) ============ */
+.ic{width:18px;height:18px;flex:none;display:inline-block;vertical-align:middle}
+.ubtn .ic{width:17px;height:17px;color:var(--text)}
+.ubtn:hover .ic{color:var(--accent)}
+#aboutBtn .ic{color:var(--dim)} #aboutBtn:hover .ic{color:var(--danger)}
+#speedBtn .ic{color:var(--warning)}
+
+/* inline SVG icons that replaced emoji (V3.0): spacing/size per context */
+@keyframes spin{to{transform:rotate(360deg)}}
+.ic.spin{animation:spin .9s linear infinite}
+.dtabs button .ic{width:15px;height:15px;vertical-align:-3px;margin-inline-end:3px}
+.pol-banner .ic{width:16px;height:16px;vertical-align:-3px;margin-inline-end:6px;color:var(--warning)}
+.def-lock .ic{width:16px;height:16px;vertical-align:-3px;margin-inline-end:5px}
+.toast .tt .ic{width:16px;height:16px;vertical-align:-3px;margin-inline-end:6px}
+.advice .ico .ic{width:18px;height:18px;color:var(--warning)}
+.advice.topology .ico .ic{color:var(--accent)}
+.smac-warn .ic{width:15px;height:15px;vertical-align:-2px;margin-inline-end:5px;color:var(--warning)}
+.gg-error .ic{width:22px;height:22px;color:var(--warning)}
+.disclaimer .ic{width:14px;height:14px;vertical-align:-2px;margin-inline-end:5px;color:var(--warning)}
+.cc-actions .btn .ic,.net-tag .ic{width:15px;height:15px;vertical-align:-3px;margin-inline-end:5px}
+.net-tag .ic{color:var(--accent)}
+
+/* device type icon in a rounded chip */
+.dev .ico{display:grid;place-items:center;width:36px;height:36px;background:var(--bg-card-2);
+  border:1px solid var(--line);border-radius:11px;color:var(--accent);font-size:0}
+.dev .ico .ic{width:20px;height:20px}
+.dev .ico:hover{border-color:var(--accent);transform:none;background:var(--bg-hover)}
+
+/* defender shield colored by state */
+.defender .shield{display:inline-grid;place-items:center;color:var(--success)}
+.defender .shield .ic{width:24px;height:24px}
+.defender.alert .shield{color:var(--danger)}
+
+/* view toggle + details gear */
+.vt .ic{width:14px;height:14px;margin-inline-end:5px;vertical-align:-2px}
+.dtl .ic{width:15px;height:15px;color:currentColor}
+.dtl{display:inline-grid;place-items:center}
+
+/* --- compact tiles (higher density, less dead space) --- */
+.intel{padding:12px 22px 2px;gap:11px}
+.tile{padding:12px 14px}
+.t-val{font-size:21px}
+.tile.health{gap:2px}
+.health-rows{margin-top:5px;gap:1px}
+.health-rows .hr{font-size:10px}
+.chart-tile #netChart{height:64px}
+
+/* stats row is now flex so SharkMAC can sit at the right edge (above List/Map),
+   same size as the Online/Limited/Cut cards. */
+.stats{display:flex;align-items:stretch;padding:11px 22px;gap:11px}
+.stats .stat{flex:0 0 150px;padding:11px 15px}
+.stat-val{font-size:23px}
+
+/* tighten section rhythm */
+.control-card{margin-top:12px;padding:15px 20px}
+.defender{margin:11px 22px 0}
+
+/* center tile content vertically -> removes top-heavy dead space */
+.tile{display:flex;flex-direction:column;justify-content:center}
+.tile.health,.tile.chart-tile{justify-content:flex-start}
+.stat{display:flex;flex-direction:column;justify-content:center}
+
+/* close buttons (modal + settings) — themed, never a native white square */
+.modal-head{padding:15px 18px}
+#modalX,.modal-head .a-x,.sx-head .a-x{width:30px;height:30px;flex:none;
+  display:grid;place-items:center;font-family:inherit;
+  background:var(--bg-card-2);border:1px solid var(--line);border-radius:9px;
+  color:var(--dim);font-size:14px;line-height:1;cursor:pointer;transition:.15s}
+#modalX:hover,.sx-head .a-x:hover{color:var(--danger);border-color:var(--danger);
+  background:var(--bg-hover)}
+#modalX:focus-visible,.sx-head .a-x:focus-visible{outline:2px solid var(--accent);
+  outline-offset:2px}
+
+/* compact live-traffic column */
+.devices-head{grid-template-columns:2.5fr 1.7fr 1.45fr 2.35fr 44px}
+.row{grid-template-columns:2.5fr 1.7fr 1.45fr 2.35fr 44px}
+.spd{gap:4px}
+.spd .line{gap:6px}
+.spd .bar{height:4px}
+.spd .num{width:auto;min-width:56px;font-size:10.5px}
+.spd .tag{font-size:10px}
+
+/* header logo mark (simplified) */
+.about-logo{display:block;width:76px;height:76px;object-fit:contain;margin:2px auto 12px;
+  filter:drop-shadow(0 0 14px rgba(var(--accent-rgb),.4))}
+/* map node SVG icons */
+.map-node .n-ico2{fill:none;stroke-width:1.6}
+.node-self .n-ico2{stroke:var(--accent)} .node-allow .n-ico2{stroke:var(--success)}
+.node-limit .n-ico2{stroke:var(--warning)} .node-cut .n-ico2{stroke:var(--danger)} .node-hardcut .n-ico2{stroke:var(--hardcut)}
+.map-center .n-ico2,.map-inet .n-ico2{stroke:var(--accent)}
+
+/* ===== Defender states — clear & distinct ===== */
+.defender{min-height:58px;background:var(--bg-card);border:1px solid var(--line);transition:.2s}
+.defender.idle{opacity:.75}
+.defender.idle .def-badge{color:var(--dim)}
+.defender:not(.protected):not(.alert) .def-badge{color:var(--success)}     /* Secure = green dot on neutral box */
+.defender.protected{background:rgba(var(--success-rgb),.10);border-color:var(--success)}
+.defender.protected .def-title,.defender.protected .def-badge,.defender.protected .shield{color:var(--success)}
+.defender.alert{background:rgba(var(--danger-rgb),.10);border-color:var(--danger);animation:defpulse 1.5s infinite}
+.defender.alert .def-title,.defender.alert .def-badge,.defender.alert .shield{color:var(--danger)}
+.defender.alert .def-sub{color:var(--text)}
+/* protect button clearer */
+.def-lock.on{background:rgba(var(--success-rgb),.16);color:var(--success);border-color:var(--success)}
+
+/* guarantee defender state colors win over the base rule */
+.defender.protected{background:rgba(var(--success-rgb),.13)!important;border-color:var(--success)!important}
+.defender.alert{background:rgba(var(--danger-rgb),.13)!important;border-color:var(--danger)!important}
+.defender.idle{background:var(--bg-card)!important;border-color:var(--line)!important}
+
+/* ===== v2.4 polish — smoother, more premium ===== */
+.row,.tile,.stat,.ubtn,.mbtn,.dtl,.vt,.seg button,.btn{transition:all .16s ease}
+.tile:hover,.stat:hover{transform:translateY(-2px);border-color:rgba(var(--accent-rgb),.25)}
+.row:hover{transform:translateX(2px)}
+.control-card{background:linear-gradient(180deg,var(--bg-card),var(--bg-card-2))}
+.def-lock,.def-invest{transition:all .16s ease}
+*:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.modal-box{animation:modalIn .18s ease}
+@keyframes modalIn{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+
+/* ===== SharkMAC — MAC Address Manager ===== */
+/* SharkMAC — a card in the stats row, right-aligned (above List/Map), the SAME
+   size as the Online/Limited/Cut cards (stretches to their height via the flex row). */
+.smac-btn{display:flex;align-items:center;justify-content:center;gap:8px;
+  flex:0 0 150px;margin-inline-start:auto;border-radius:14px;
+  background:linear-gradient(180deg,var(--bg-card),var(--bg-card-2));
+  border:1px solid var(--accent);color:var(--accent);cursor:pointer;
+  font-family:'Inter',sans-serif;font-weight:700;font-size:13px;letter-spacing:.3px;
+  transition:.15s;white-space:nowrap;box-shadow:0 2px 18px rgba(0,0,0,.22)}
+.smac-btn:hover{box-shadow:var(--glow);transform:translateY(-2px)}
+.smac-btn .smi{display:grid;place-items:center}
+.smac-btn .smi .ic{width:20px;height:20px;color:var(--accent)}
+.smac{display:flex;flex-direction:column;gap:12px;min-width:320px}
+.smac-row{display:flex;flex-direction:column;gap:5px}
+.smac-row label{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim)}
+.smac select,.smac input{background:var(--bg-deep);border:1px solid var(--line);color:var(--text);
+  border-radius:8px;padding:8px 10px;font:inherit;outline:none}
+.smac select:focus,.smac input:focus{border-color:var(--accent);box-shadow:var(--glow)}
+.smac-cap{font-size:12px;padding:6px 10px;border-radius:8px;border:1px solid var(--line)}
+.smac-cap.ok{color:var(--success);border-color:rgba(var(--success-rgb),.3);background:rgba(var(--success-rgb),.08)}
+.smac-cap.warn{color:var(--warning);border-color:rgba(var(--warning-rgb),.3);background:rgba(var(--warning-rgb),.08)}
+.smac-cap.bad{color:var(--danger);border-color:rgba(var(--danger-rgb),.3);background:rgba(var(--danger-rgb),.08)}
+.smac-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.smac-card{background:var(--bg-card-2);border:1px solid var(--line);border-radius:10px;
+  padding:10px 12px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.smac-card span{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim)}
+.smac-card b{font-family:'Consolas','SF Mono',monospace;font-size:14px;letter-spacing:.5px;
+  overflow:hidden;text-overflow:ellipsis}
+.smac-card b.spoofed{color:var(--warning)}
+.smac-preset{width:100%}.smac-preset button{flex:1}
+.smac-gen{display:flex;align-items:center;gap:10px;background:var(--bg-card-2);
+  border:1px solid var(--accent);border-radius:10px;padding:10px 12px}
+.smac-gen span{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim);flex:none}
+.smac-gen b{flex:1;font-family:'Consolas','SF Mono',monospace;font-size:16px;letter-spacing:1px;
+  color:var(--accent);overflow:hidden;text-overflow:ellipsis}
+.ubtn.sm{width:30px;height:30px;font-size:0;flex:none}
+.ubtn.sm .ic{width:15px;height:15px}
+.smac-warn{font-size:12px;line-height:1.55;color:var(--text);background:rgba(var(--warning-rgb),.08);
+  border:1px solid rgba(var(--warning-rgb),.3);border-radius:10px;padding:10px 12px}
+.smac-actions{display:flex;gap:8px}.smac-actions .btn{flex:1}
+.smac-status{font-size:12px;min-height:16px;color:var(--dim)}
+.smac-status.bad{color:var(--danger)}.smac-status.busy{color:var(--accent)}
+.smac-done{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;padding:8px}
+.smac-done-mac{font-family:'Consolas','SF Mono',monospace;font-size:20px;letter-spacing:1px;color:var(--success)}
+
+/* ============================================================
+   Phase 7 — bulk select · network rules · copy IP · policy-aware health
+   (additions only; no existing component redesigned)
+   ============================================================ */
+
+/* --- multi-select: checkbox inside the row (5-col grid preserved) --- */
+.selbox,.selall{width:15px;height:15px;flex:none;cursor:pointer;accent-color:var(--accent);margin:0}
+.selall{vertical-align:-2px;margin-right:5px}
+.selspacer{width:15px;flex:none}          /* keeps self/gateway rows aligned */
+.row.selected{border-color:var(--accent);box-shadow:inset 0 0 0 1px rgba(var(--accent-rgb),.5)}
+.row.selected:hover{background:var(--grad-accent)}
+
+/* --- bulk action bar (left of the view toggle; hidden when nothing selected) --- */
+.dev-toolbar{display:flex;align-items:center;gap:10px}
+.bulk-bar{display:flex;align-items:center;gap:7px;margin-right:auto}
+.bulk-count{font-size:12px;color:var(--dim)}.bulk-count b{color:var(--text);font-weight:700}
+.bbtn{padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg-card-2);
+  color:var(--dim);cursor:pointer;font-size:11px;font-weight:600;letter-spacing:.5px;transition:.14s}
+.bbtn:hover{color:var(--text)}
+.bbtn[data-m="allow"]:hover{color:var(--success);border-color:var(--success)}
+.bbtn[data-m="limit"]:hover{color:var(--warning);border-color:var(--warning)}
+.bbtn[data-m="cut"]:hover{color:var(--danger);border-color:var(--danger)}
+.bbtn[data-m="hardcut"]{font-weight:700}
+.bbtn[data-m="hardcut"]:hover{color:#fff;background:var(--hardcut);border-color:var(--hardcut)}
+/* HARD CUT isolation note (History/Visited tabs): honest "no monitoring" panel */
+.hardcut-note{display:flex;align-items:flex-start;gap:10px;padding:16px 18px;margin:8px 0;
+  font-size:13px;line-height:1.55;color:var(--text);border-radius:12px;
+  background:rgba(var(--hardcut-rgb),.08);border:1px solid rgba(var(--hardcut-rgb),.32)}
+.hardcut-note .ic{width:18px;height:18px;color:var(--hardcut);flex:none;margin-top:1px}
+.bulk-clear{background:none;border:none;color:var(--dim);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:6px}
+.bulk-clear:hover{color:var(--text);background:var(--bg-hover)}
+
+/* --- copy-IP / copy-MAC affordances beside each value (reveal on row hover) --- */
+.net .ip-row,.net .mac-row{display:flex;align-items:center;gap:6px}
+.ipcopy,.maccopy{background:none;border:none;color:var(--dim);cursor:pointer;padding:0;opacity:0;
+  transition:.15s;display:inline-grid;place-items:center}
+.row:hover .ipcopy{opacity:.55}
+.row:hover .maccopy{opacity:.45}
+.ipcopy:hover,.maccopy:hover{opacity:1;color:var(--accent)}
+.ipcopy .ic{width:13px;height:13px}
+.maccopy .ic{width:12px;height:12px}
+
+/* --- service/domain modal hints + visited-site "blocked" tag (items 15/16) --- */
+.hint{font-size:11.5px;color:var(--dim);line-height:1.5;margin:2px 0 9px}
+.vrow .vblk{color:var(--danger);font-size:10px;font-weight:600;margin-left:6px;
+  border:1px solid rgba(var(--danger-rgb),.4);border-radius:5px;padding:0 5px}
+
+/* --- right-click context menu (Copy IP / MAC) --- */
+.ctx-menu{position:fixed;z-index:200;min-width:184px;background:var(--bg-card);
+  border:1px solid var(--line);border-radius:10px;padding:5px;box-shadow:0 10px 34px rgba(0,0,0,.45)}
+.ctx-menu button{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;
+  color:var(--text);padding:8px 10px;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit;text-align:left}
+.ctx-menu button:hover{background:var(--bg-hover)}
+.ctx-menu .ic{width:14px;height:14px;color:var(--dim)}
+
+/* --- network-wide rules strip (clearly a NETWORK rule, session-only) --- */
+.net-strip{display:flex;align-items:center;gap:12px;margin:11px 22px 0;padding:9px 14px;
+  border:1px solid rgba(var(--accent-rgb),.4);border-radius:12px;
+  background:radial-gradient(500px 120px at 0% 50%,var(--grad-accent),transparent 70%),var(--bg-card)}
+.net-tag{font-family:'Inter',sans-serif;font-size:10.5px;letter-spacing:1.2px;font-weight:700;
+  color:var(--accent);white-space:nowrap}
+.net-chips{display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0}
+.net-chip{background:rgba(var(--danger-rgb),.14);border:1px solid rgba(var(--danger-rgb),.42);color:var(--danger);
+  border-radius:7px;padding:3px 9px;font-size:11px;font-weight:600}
+.net-chip.svc{background:rgba(var(--accent-rgb),.12);border-color:rgba(var(--accent-rgb),.4);color:var(--accent)}
+.net-clear{background:var(--bg-card-2);border:1px solid var(--line);color:var(--dim);border-radius:8px;
+  padding:5px 12px;cursor:pointer;font-size:11px;font-weight:600;white-space:nowrap}
+.net-clear:hover{color:var(--danger);border-color:var(--danger)}
+.net-note{background:var(--grad-accent);border:1px solid rgba(var(--accent-rgb),.28);border-radius:10px;
+  padding:9px 12px;font-size:12px;line-height:1.5;color:var(--text);margin-bottom:4px}
+
+/* --- policy-aware health (P7-05): a distinct row + per-device banner --- */
+.health-rows .hr.pol{color:var(--warning)}
+.health-rows .hr.pol b{color:var(--warning);font-weight:700}
+.pol-banner{background:rgba(var(--warning-rgb),.1);border:1px solid rgba(var(--warning-rgb),.32);border-radius:10px;
+  padding:9px 12px;font-size:12px;line-height:1.5;color:var(--text);margin-bottom:8px}
+
+/* --- service chips: QUIC marker + visited-domain service tag --- */
+.pset .q{font-size:8px;font-weight:700;opacity:.75;vertical-align:super;margin-left:1px}
+.vrow .vsvc{color:var(--accent);font-size:10px;font-weight:600;margin-left:6px}
+
+/* --- F1: "Blocking…/Unblocking…" pending state on the clicked control --- */
+.pset.pending,.chip.block.pending{opacity:.6;font-style:italic;cursor:progress}
+.pset.pending{border-color:var(--accent)}
+/* --- F2: failure toast uses the danger color (matches the existing .warn rule) --- */
+.toast.danger{border-color:var(--danger)}
+
+/* --- D: themed confirm dialog (replaces native confirm popup) --- */
+.confirm-box{display:flex;flex-direction:column;gap:16px}
+.confirm-msg{font-size:14px;line-height:1.6;color:var(--text);margin:0}
+.confirm-actions{display:flex;gap:10px;justify-content:flex-end}
+.confirm-actions .btn{min-width:96px;justify-content:center}
+
+/* --- A: device list in 2 columns on wide screens (cards kept intact) --- */
+@media (min-width:1160px){
+  .device-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start}
+  /* the aligned column header can't span two card columns -> keep only select-all + Device */
+  .devices-head{display:flex;align-items:center}
+  .devices-head .col-net,.devices-head .col-spd,.devices-head .col-act{display:none}
+}
+
+/* ============================================================
+   i18n — language selector + RTL (item 27). Layer on top; no redesign.
+   ============================================================ */
+.lang-wrap{position:relative;display:inline-flex}
+.lang-btn{display:inline-flex;align-items:center;gap:5px;height:38px;padding:0 10px;
+  border-radius:11px;background:var(--bg-card-2);border:1px solid var(--line);cursor:pointer;
+  color:var(--text);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;transition:.15s}
+.lang-btn:hover{border-color:var(--accent);box-shadow:var(--glow);transform:translateY(-1px)}
+.lang-globe{display:inline-grid;place-items:center;color:var(--text)}
+.lang-globe .ic{width:16px;height:16px}
+.lang-code{letter-spacing:.5px}
+.lang-caret{font-size:9px;color:var(--dim);line-height:1}
+.lang-menu{position:absolute;top:calc(100% + 6px);right:0;z-index:210;min-width:168px;
+  background:var(--bg-card);border:1px solid var(--line);border-radius:11px;padding:5px;
+  box-shadow:0 12px 36px rgba(0,0,0,.5)}
+.lang-menu.hidden{display:none}
+.lang-menu button{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;
+  color:var(--text);padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px;
+  font-family:'Inter','Noto Sans Arabic',sans-serif;text-align:left}
+.lang-menu button:hover{background:var(--bg-hover)}
+.lang-menu button.on{color:var(--accent)}
+.lang-menu .lm-check{width:14px;flex:0 0 14px;color:var(--accent);font-size:12px;text-align:center}
+.lang-menu .lm-name{flex:1}
+/* the menu is anchored to the button's right edge; in RTL flip it to the left */
+html[dir="rtl"] .lang-menu{right:auto;left:0}
+
+/* ---------- RTL (Arabic) ---------- */
+/* mirror only the directional chrome; keep every technical value LTR so IPs,
+   MACs, MAC presets, speeds and the traffic gauge never read backwards. */
+html[dir="rtl"] body{letter-spacing:0}
+html[dir="rtl"] .ip,html[dir="rtl"] .mac,html[dir="rtl"] .net,html[dir="rtl"] .cc-field div,
+html[dir="rtl"] .smac-card b,html[dir="rtl"] .smac-gen b,html[dir="rtl"] .smac-done-mac,
+html[dir="rtl"] .vrow,html[dir="rtl"] input#smacCustom,html[dir="rtl"] .t-val,
+html[dir="rtl"] .isp-row b,html[dir="rtl"] .kv b,html[dir="rtl"] .chip{
+  direction:ltr;unicode-bidi:isolate}
+/* value columns/rows: keep the number+unit block itself LTR, anchored to the
+   line's start edge (right, in RTL) */
+html[dir="rtl"] .ip-row,html[dir="rtl"] .mac-row{flex-direction:row-reverse;justify-content:flex-end}
+html[dir="rtl"] .kv{direction:rtl}
+html[dir="rtl"] .kv b{text-align:left}
+/* device-row live-traffic tags (↓/↑) sit fine either way; leave numbers LTR */
+html[dir="rtl"] .num{direction:ltr;unicode-bidi:isolate}
+/* toasts slide in from the same corner; text aligns to the reading direction */
+html[dir="rtl"] .toast{text-align:right}
+/* the footer dedication is already dir=rtl; keep the version number LTR */
+html[dir="rtl"] .ver b{direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+/* ============================================================
+   V3.1 — background status pill + settings panel
+   Colors come from the theme tokens, so light/dark follow automatically.
+   Layout uses logical properties (margin-inline / padding-inline) so the
+   Arabic RTL mirror needs no separate rules.
+   ============================================================ */
+
+/* header pill: is SharkNet going to keep running when the window closes? */
+.bg-pill{display:inline-flex;align-items:center;gap:7px;height:30px;
+  padding-inline:10px;border-radius:999px;background:var(--bg-card-2);
+  border:1px solid var(--line);color:var(--dim);font-size:12px;font-weight:600;
+  white-space:nowrap;cursor:default;transition:.15s}
+.bg-pill .bg-dot{width:7px;height:7px;border-radius:50%;background:var(--dim);flex:none}
+/* running state uses the calmer --status-ok (not the neon --success) with a much
+   softer halo, so it reads as a steady status light and never competes with the
+   cyan brand accent next to it. */
+.bg-pill.on{color:var(--status-ok);border-color:rgba(var(--status-ok-rgb),.34);
+  background:rgba(var(--status-ok-rgb),.07)}
+.bg-pill.on .bg-dot{background:var(--status-ok);box-shadow:0 0 5px rgba(var(--status-ok-rgb),.45)}
+
+/* settings panel (inside the shared modal) */
+.settings{display:flex;flex-direction:column;gap:20px}
+.set-sec{display:flex;flex-direction:column;gap:9px}
+.set-h{font-size:14px;font-weight:700;color:var(--text)}
+.set-h2{font-size:12px;font-weight:700;color:var(--dim);text-transform:uppercase;
+  letter-spacing:.6px;margin-top:6px}
+.set-sub{font-size:12.5px;color:var(--dim);line-height:1.5;margin-top:-4px}
+.set-note,.set-warn{display:flex;gap:8px;font-size:12.5px;line-height:1.5;
+  border-radius:10px;padding:9px 11px;border:1px solid var(--line)}
+.set-note{color:var(--dim);background:var(--bg-card-2)}
+.set-note .ic,.set-warn .ic{width:15px;height:15px;flex:none;margin-top:2px}
+.set-warn{color:var(--warning);background:rgba(var(--warning-rgb),.08);
+  border-color:rgba(var(--warning-rgb),.35)}
+
+/* one option = switch + label (+ optional description) */
+.opt{display:flex;align-items:flex-start;gap:11px;padding:8px 10px;border-radius:10px;
+  cursor:pointer;transition:.15s}
+.opt:hover{background:var(--bg-hover)}
+.opt-off{opacity:.45;cursor:not-allowed}
+.opt-off:hover{background:none}
+.opt-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.opt-l{font-size:13px;color:var(--text);line-height:1.35}
+.opt-d{font-size:11.5px;color:var(--dim);line-height:1.45}
+.set-cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2px}
+.set-cats .opt-l{font-size:12.5px}
+
+/* the switch itself — a real checkbox, restyled (keeps keyboard + a11y for free) */
+.sw{appearance:none;-webkit-appearance:none;margin:0;flex:none;position:relative;
+  width:36px;height:20px;border-radius:999px;background:var(--bg-card-2);
+  border:1px solid var(--line);cursor:inherit;transition:.18s;margin-top:1px}
+.sw::after{content:"";position:absolute;top:2px;inset-inline-start:2px;width:14px;height:14px;
+  border-radius:50%;background:var(--dim);transition:.18s}
+.sw:checked{background:var(--accent);border-color:var(--accent)}
+.sw:checked::after{background:var(--on-accent);inset-inline-start:18px}
+.sw:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sw:disabled{cursor:not-allowed}
+/* No RTL override needed: inset-inline-start mirrors on its own, so in Arabic the
+   knob simply travels right -> left. */
+
+/* ============================================================
+   V3.1 — Settings popup (centered, desktop two-column)
+   Fixed header + fixed left navigation; ONLY the right pane scrolls.
+   Logical properties throughout, so Arabic RTL mirrors without extra rules.
+   ============================================================ */
+.sx-scrim{position:fixed;inset:0;z-index:110;background:rgba(0,0,0,.52);
+  backdrop-filter:blur(2px);opacity:0;transition:opacity .18s ease}
+.sx-scrim.show{opacity:1}
+:root[data-theme="light"] .sx-scrim{background:rgba(20,22,34,.34)}
+
+.sx{
+  position:fixed;z-index:120;top:50%;left:50%;
+  width:min(840px,calc(100vw - 64px));
+  height:min(600px,78vh);
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--bg-card);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 24px 64px rgba(0,0,0,.5);
+  transform:translate(-50%,-50%) scale(.985);opacity:0;
+  transition:opacity .18s ease,transform .18s cubic-bezier(.22,.61,.36,1);
+}
+:root[data-theme="light"] .sx{box-shadow:0 24px 64px rgba(20,22,34,.2)}
+.sx.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+.sx-head{flex:none;display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:15px 18px;border-bottom:1px solid var(--line);
+  background:var(--bg-panel);font-size:15px;font-weight:700;color:var(--text)}
+
+.sx-body{flex:1;display:flex;min-height:0}
+
+/* left navigation — slightly differentiated surface, never scrolls */
+.sx-nav{flex:none;width:210px;padding:12px 10px;display:flex;flex-direction:column;gap:2px;
+  background:var(--bg-card-2);border-inline-end:1px solid var(--line);overflow:hidden}
+.sx-nav-item{position:relative;display:flex;align-items:center;gap:10px;width:100%;
+  text-align:start;background:none;border:none;color:var(--dim);font-family:inherit;
+  font-size:13px;font-weight:600;cursor:pointer;padding:10px 12px;border-radius:9px;
+  transition:.15s}
+.sx-nav-item:hover{background:var(--bg-hover);color:var(--text)}
+.sx-nav-item.on{background:rgba(var(--accent-rgb),.10);color:var(--accent)}
+/* thin accent line on the active row (inline-start mirrors in RTL) */
+.sx-nav-item.on::before{content:"";position:absolute;inset-block:8px;inset-inline-start:0;
+  width:2px;border-radius:2px;background:var(--accent)}
+.sx-nav-ic{width:16px;height:16px;flex:none}
+.sx-nav-item.on .sx-nav-ic{color:var(--accent)}
+
+/* right pane — the ONLY scrolling region */
+.sx-pane{flex:1;min-width:0;overflow-y:auto;padding:16px 20px 22px}
+.sx-pane-h{margin:0 0 4px;font-size:15px;font-weight:700;color:var(--text)}
+.sx-pane-body{display:flex;flex-direction:column;gap:16px;
+  animation:sxFade .16s ease}
+@keyframes sxFade{from{opacity:0}to{opacity:1}}
+
+.sx-grp{display:flex;flex-direction:column;gap:2px}
+.sx-grp-h{margin:6px 0 4px;font-size:10.5px;font-weight:700;color:var(--dim);
+  text-transform:uppercase;letter-spacing:.9px}
+
+/* in the popup a row is label-left / switch-right */
+.sx .opt{justify-content:space-between;align-items:center;gap:16px}
+.sx .opt .sw{margin-top:0}
+
+@media (max-width:820px){
+  .sx{width:calc(100vw - 32px)}
+  .sx-nav{width:64px;padding:12px 8px}
+  .sx-nav-item span{display:none}          /* compact icon strip */
+  .sx-nav-item{justify-content:center;padding:11px 0}
+}
+
+/* Settings → Language — SharkNet-native selectable list.
+   A clean text-based option list (no flags, no native white buttons): dark/light
+   aware, with clear selected/hover/focus states and full keyboard access. The
+   selected row carries the accent; the check marks it for non-colour users. */
+.lang-list{display:flex;flex-direction:column;gap:6px}
+.lang-row{display:flex;align-items:center;gap:10px;width:100%;
+  padding:10px 12px;text-align:start;font-family:inherit;font-size:13px;
+  font-weight:600;color:var(--text);cursor:pointer;
+  background:var(--bg-card-2);border:1px solid var(--line);border-radius:10px;
+  transition:.15s}
+.lang-row:hover{border-color:var(--accent);background:var(--bg-hover)}
+.lang-row.on{border-color:var(--accent);color:var(--accent);
+  background:rgba(var(--accent-rgb),.10)}
+.lang-row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lang-row .lr-check{flex:none;width:16px;text-align:center;
+  color:var(--accent);font-size:12px;line-height:1}
+
+/* read-only runtime facts — deliberately NOT styled like a control */
+.rt-box{border:1px solid var(--line);border-radius:11px;background:var(--bg-card-2);
+  padding:4px 12px}
+.rt-row{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 0;font-size:12.5px;border-bottom:1px solid var(--line)}
+.rt-row:last-child{border-bottom:none}
+.rt-l{color:var(--dim)}
+.rt-v{display:inline-flex;align-items:center;gap:7px;color:var(--dim);font-weight:600}
+.rt-v.on{color:var(--status-ok)}
+.rt-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);flex:none}
+.rt-v.on .rt-dot{background:var(--status-ok);box-shadow:0 0 5px rgba(var(--status-ok-rgb),.45)}
+
+/* SHARKmac: honest empty state when no Ethernet/Wi-Fi adapter exists */
+.smac-empty{display:flex;align-items:flex-start;gap:9px;padding:14px 12px;
+  border:1px solid rgba(var(--warning-rgb),.35);background:rgba(var(--warning-rgb),.08);
+  border-radius:11px;color:var(--warning);font-size:13px;line-height:1.5}
+.smac-empty .ic{width:16px;height:16px;flex:none;margin-top:1px}
+
+/* ============================================================
+   V3.1 — SharkNet notification card
+   ONE component for the in-app stack and the frameless desktop toast window,
+   so a notification looks the same wherever it is drawn.
+   Refined from the old full cyan border: a dark charcoal surface with a NARROW
+   cyan accent line on the inline-start edge and a soft shadow instead.
+   ============================================================ */
+/* the stack sits bottom-right; 44px clears the persistent footer bar, which the
+   notifications must never cover. In RTL the position stays bottom-right on
+   purpose (desktop convention), only the text/icon layout mirrors. */
+.toasts{right:18px;bottom:44px;gap:9px;max-width:min(360px,calc(100vw - 36px))}
+
+.sn-toast{
+  position:relative;display:flex;align-items:center;gap:11px;
+  min-width:250px;max-width:340px;padding:11px 12px 11px 15px;
+  background:var(--bg-card);border:1px solid var(--line);border-radius:12px;
+  /* no outer glow/heavy shadow — the 1px --line edge separates the crisp dark
+     card from the surface. (The floating look came from the old 26px shadow.) */
+  overflow:hidden;cursor:default;
+  opacity:0;transform:translateX(14px);
+  transition:opacity .2s ease,transform .2s cubic-bezier(.22,.61,.36,1);
+}
+.sn-toast.in{opacity:1;transform:none}
+.sn-toast.out{opacity:0;transform:translateX(14px)}
+html[dir="rtl"] .sn-toast{transform:translateX(-14px)}
+html[dir="rtl"] .sn-toast.in{transform:none}
+html[dir="rtl"] .sn-toast.out{transform:translateX(-14px)}
+
+/* the narrow accent line — replaces the old 4px border-left + full cyan ring */
+.sn-toast::before{content:"";position:absolute;inset-block:0;inset-inline-start:0;
+  width:3px;background:var(--accent);opacity:.9}
+.sn-toast.warn::before{background:var(--warning)}
+.sn-toast.danger::before{background:var(--danger)}
+
+.sn-toast .sn-ico{flex:none;display:grid;place-items:center;width:28px;height:28px;
+  border-radius:8px;background:rgba(var(--accent-rgb),.10);color:var(--accent)}
+.sn-toast.warn .sn-ico{background:rgba(var(--warning-rgb),.12);color:var(--warning)}
+.sn-toast.danger .sn-ico{background:rgba(var(--danger-rgb),.12);color:var(--danger)}
+.sn-toast .sn-ic{width:15px;height:15px}
+
+.sn-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.sn-title{font-size:12.5px;font-weight:700;color:var(--text);line-height:1.3}
+.sn-body{font-size:11.5px;color:var(--dim);line-height:1.35;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* close X: same box as the icon so title/text/X share one centered row */
+.sn-x{flex:none;align-self:center;display:grid;place-items:center;width:20px;height:20px;
+  background:none;border:none;color:var(--dim);cursor:pointer;
+  font-size:12px;line-height:1;border-radius:6px;transition:.15s}
+.sn-x:hover{color:var(--text);background:var(--bg-hover)}
+
+/* The desktop toast window hosts the same card on an OPAQUE SharkNet ground.
+   (WebView2 does not composite a transparent window to the desktop on this stack,
+   so a transparent page fell back to a white form background — the reported white
+   rectangle. The launcher sizes the native window to hug the stack, so the ground
+   only shows as the thin card gaps + rounded corners, never a blank box.) The
+   ground is theme-aware via --bg-deep, so it matches Dark and Light. */
+body.sn-desktop{background:var(--bg-deep);overflow:hidden;height:auto;display:block}
+body.sn-desktop .toasts{position:static;right:auto;bottom:auto;padding:6px;
+  max-width:none;align-items:stretch}
+/* The frameless host window is transparent and hugs the stack. NO card box-shadow
+   here: on Windows the drop-shadow read as a large grey ghost rectangle behind the
+   toast. The 1px --line edge + the accent bar are the only separation, exactly like
+   the in-app stack. The card fills the host width so no surrounding strip shows. */
+body.sn-desktop .sn-toast{cursor:pointer;max-width:none;width:100%}
+
+/* ============================================================
+   V3.1 — Runtime → Diagnostics & Performance (read-only)
+   Reuses the .rt-box surface; compact metric rows, not a dev dashboard.
+   ============================================================ */
+.dg-sec{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.dg-box{padding:2px 12px}
+.dg-row{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:12.5px;
+  border-bottom:1px solid var(--line)}
+.dg-row:last-child{border-bottom:none}
+.dg-l{color:var(--dim);flex:1;min-width:0}
+.dg-v{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;
+  direction:ltr;unicode-bidi:isolate}
+.dg-u{color:var(--dim);font-size:11px}
+.dg-status{border-top:1px solid var(--line);margin-top:2px}
+.dg-badge{padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700}
+.dg-badge.ok{color:var(--status-ok);background:rgba(var(--status-ok-rgb),.12)}
+.dg-badge.warn2{color:var(--accent);background:rgba(var(--accent-rgb),.12)}
+.dg-badge.bad{color:var(--warning);background:rgba(var(--warning-rgb),.14)}
+.dg-actions{display:flex;gap:8px;flex-wrap:wrap}
+.dg-actions .btn{font-size:12px;padding:7px 12px}
+.dg-result{margin-top:4px;border:1px solid var(--line);border-radius:11px;
+  background:var(--bg-card-2);padding:2px 12px}
+/* RTL: numbers/units stay LTR (handled by .dg-v isolate); rows mirror naturally */

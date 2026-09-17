@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="sharknet-token" content="__SHARKNET_TOKEN__" />
+  <!-- First-run application-language seed (installer choice / persisted locale),
+       injected by the server. Used ONLY when the user has not chosen a language
+       yet (empty localStorage); setLang()/localStorage stay authoritative after. -->
+  <meta name="sharknet-initial-lang" content="__SHARKNET_LANG__" />
+  <title>SharkNet</title>
+  <!-- item 10: paint the SharkNet ground on the VERY FIRST frame (before external
+       CSS/JS load) and apply the saved theme + language direction immediately, so
+       startup is SharkNet-background -> UI in the right language, never a
+       black/white flash or an LTR->RTL reflow. -->
+  <style>html,body{margin:0;background:#070810}html[data-theme="light"],html[data-theme="light"] body{background:#eef0f5}</style>
+  <script>try{var t=localStorage.getItem("sharknet-theme")||"dark";document.documentElement.setAttribute("data-theme",t);document.documentElement.style.background=t==="light"?"#eef0f5":"#070810";var lg=localStorage.getItem("sharknet-lang")||"__SHARKNET_LANG__"||"en";document.documentElement.setAttribute("lang",lg);document.documentElement.setAttribute("dir",lg==="ar"?"rtl":"ltr");}catch(e){document.documentElement.style.background="#070810";}</script>
+  <link rel="icon" href="/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/1-base.css?v=3.2.0" />
+  <link rel="stylesheet" href="/css/2-components.css?v=3.2.0" />
+  <link rel="stylesheet" href="/css/3-features.css?v=3.2.0" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="logo" src="/logo.png?v=3.2.0" alt="SharkNet" width="34" height="34" />
+      <span class="name">SHARK<b>NET</b></span>
+    </div>
+    <div class="actions">
+      <!-- V3.1 background/tray status. Hidden until /api/runtime answers, so it can
+           never claim a background mode the launcher didn't actually start. -->
+      <span id="bgStatus" class="bg-pill hidden" role="status" aria-live="polite">
+        <span class="bg-dot" aria-hidden="true"></span>
+        <span class="bg-txt" data-i18n="status.background_off">Background off</span>
+      </span>
+      <div class="seg unit-seg" id="unitToggle" data-i18n-title="header.units_tip" data-i18n-aria-label="header.units_tip" title="Speed units" role="group" aria-label="Speed units">
+        <button data-u="kbs" class="on" aria-pressed="true">KB/s</button>
+        <button data-u="mbps" aria-pressed="false">Mbps</button>
+      </div>
+      <!-- Language + theme quick controls removed (V3.1): both now live in their
+           dedicated Settings panes (Settings → Language / Settings → Appearance),
+           the same authoritative setLang()/applyTheme() state. This keeps the
+           header uncluttered without a second state path. -->
+      <button id="speedBtn" class="ubtn" data-i18n-title="header.speedtest_tip" data-i18n-aria-label="header.speedtest_tip" title="Internet speed test" aria-label="Run internet speed test"><span>⚡</span></button>
+      <button id="settingsBtn" class="ubtn" data-i18n-title="settings.tip" data-i18n-aria-label="settings.title" title="Settings" aria-label="Settings"><span>⚙️</span></button>
+      <button id="aboutBtn" class="ubtn" data-i18n-title="header.about_tip" data-i18n-aria-label="about.title" title="About & dedication" aria-label="About SharkNet"><span>🤍</span></button>
+    </div>
+  </header>
+
+  <section class="control-card">
+    <span class="cc-status" id="ccStatus" role="status" aria-live="polite"></span>
+    <div class="cc-adapter">
+      <label data-i18n="control.adapter">Network adapter</label>
+      <select id="ifaceSelect"></select>
+    </div>
+    <div class="cc-field"><label data-i18n="control.local_ip">Local IP</label><div id="ccIp">—</div></div>
+    <div class="cc-field"><label data-i18n="control.gateway">Gateway</label><div id="ccGw">—</div></div>
+    <div class="cc-actions" id="ccActions">
+      <button id="startBtn" class="btn btn-primary"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l12 8-12 8z"/></svg> <span data-i18n="control.start">Start control</span></button>
+      <button id="scanBtn" class="btn hidden"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg> <span data-i18n="control.refresh">Refresh devices</span></button>
+      <button id="cutOthersBtn" class="btn btn-warn hidden" data-i18n-title="control.cut_others_tip" title="Cut everyone except this PC"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4L8.5 15.5M14.5 14.5L20 20M8.5 8.5L12 12"/></svg> <span data-i18n="control.cut_others">Cut others</span></button>
+      <button id="uncutOthersBtn" class="btn hidden" data-i18n-title="control.uncut_others_tip" title="Restore internet for all other devices"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> <span data-i18n="control.uncut_others">Uncut others</span></button>
+      <button id="netRulesBtn" class="btn hidden" data-i18n-title="control.network_tip" title="Network-wide blocks (applies to all devices, this session)"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg> <span data-i18n="control.network">Network</span></button>
+      <button id="stopAllBtn" class="btn btn-danger hidden"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg> <span data-i18n="control.stop_restore">Stop &amp; restore</span></button>
+    </div>
+  </section>
+
+  <!-- SharkNet Defender strip -->
+  <section id="defender" class="defender idle" role="status" aria-live="polite">
+    <div class="def-left">
+      <span class="shield" aria-hidden="true">🛡️</span>
+      <div>
+        <div class="def-title" data-i18n="defender.title">SharkNet Defender</div>
+        <div class="def-sub" id="defSub" data-i18n="defender.monitoring">Monitoring gateway…</div>
+      </div>
+    </div>
+    <div class="def-right" id="defRight">
+      <span class="def-badge" id="defBadge">● <span data-i18n="defender.secure">Secure</span></span>
+    </div>
+  </section>
+
+  <div id="advice" class="advice-wrap"></div>
+
+  <!-- Real-time Traffic Intelligence -->
+  <section class="intel">
+    <div class="tile"><div class="t-val accent" id="iDown">0</div><div class="t-lbl" data-i18n="intel.download">Download</div></div>
+    <div class="tile"><div class="t-val success" id="iUp">0</div><div class="t-lbl" data-i18n="intel.upload">Upload</div></div>
+    <div class="tile"><div class="t-val" id="iLat">— <span class="u">ms</span></div><div class="t-lbl" data-i18n="intel.latency">Latency</div></div>
+    <div class="tile"><div class="t-val" id="iPps">0 <span class="u">/s</span></div><div class="t-lbl" data-i18n="intel.packets">Packets</div></div>
+    <div class="tile health" id="healthTile">
+      <div class="t-val" id="iGrade">—</div>
+      <div class="t-lbl" data-i18n="intel.health_title">Network Health</div>
+      <div class="health-rows" id="healthRows"></div>
+    </div>
+    <div class="tile chart-tile">
+      <canvas id="netChart" width="240" height="72"></canvas>
+      <div class="t-lbl" data-i18n="intel.live_traffic">Live traffic (60s)</div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><div class="stat-val" id="stOnline">0</div><div class="stat-lbl" data-i18n="stats.online">Online</div></div>
+    <div class="stat"><div class="stat-val warn" id="stLimit">0</div><div class="stat-lbl" data-i18n="stats.limited">Limited</div></div>
+    <div class="stat"><div class="stat-val danger" id="stCut">0</div><div class="stat-lbl" data-i18n="stats.cut">Cut</div></div>
+    <button id="sharkmacBtn" class="smac-btn" data-i18n-title="header.sharkmac_tip" data-i18n-aria-label="header.sharkmac_tip" title="SharkMAC — MAC Address Manager" aria-label="SharkMAC — MAC Address Manager"><span class="smi"></span>SharkMAC</button>
+  </section>
+
+  <!-- Network-wide rules strip (session-only): only visible when a network rule is active -->
+  <section id="netStrip" class="net-strip hidden" role="status" aria-live="polite">
+    <span class="net-tag" data-i18n-title="network.strip_tip" title="Applies to every device — cleared when you Stop control"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg> <span data-i18n="network.strip_tag">NETWORK · session</span></span>
+    <div class="net-chips" id="netChips"></div>
+    <button id="netClear" class="net-clear" data-i18n-title="network.clear_tip" data-i18n="network.clear" title="Clear all network-wide blocks">Clear</button>
+  </section>
+
+  <main class="devices">
+    <div class="dev-toolbar">
+      <div id="bulkBar" class="bulk-bar hidden" role="group" data-i18n-aria-label="a11y.bulk_group" aria-label="Bulk actions for selected devices">
+        <span class="bulk-count"><b id="bulkN">0</b> <span data-i18n="devices.selected">selected</span></span>
+        <button class="bbtn" data-m="allow" data-i18n="modes.allow">ALLOW</button>
+        <button class="bbtn" data-m="limit" data-i18n="modes.limit">LIMIT</button>
+        <button class="bbtn" data-m="cut" data-i18n="modes.cut">CUT</button>
+        <button class="bbtn bbtn-hard" data-m="hardcut" data-i18n="modes.hardcut" data-i18n-title="hardcut.tip" title="Maximum isolation — no forwarding, no monitoring">HARD CUT</button>
+        <button id="bulkClear" class="bulk-clear" data-i18n-title="a11y.clear_selection" data-i18n-aria-label="a11y.clear_selection" title="Clear selection" aria-label="Clear selection">✕</button>
+      </div>
+      <div class="view-toggle" role="group" data-i18n-aria-label="a11y.view_group" aria-label="Device view">
+        <button id="viewList" class="vt active" aria-pressed="true">☰ List</button>
+        <button id="viewMap" class="vt" aria-pressed="false">⬡ Map</button>
+      </div>
+    </div>
+    <div class="devices-head" id="listHead">
+      <span class="col-dev"><input type="checkbox" id="selAll" class="selall" data-i18n-title="devices.select_all_tip" data-i18n-aria-label="devices.select_all_tip" title="Select all controllable devices" aria-label="Select all controllable devices" /> <span data-i18n="devices.device">Device</span></span>
+      <span class="col-net" data-i18n="devices.address">Address</span>
+      <span class="col-spd" data-i18n="devices.live_traffic">Live traffic</span>
+      <span class="col-act" data-i18n="devices.control">Control</span>
+    </div>
+    <div id="deviceList" class="device-list"></div>
+    <div id="mapView" class="map-view hidden">
+      <svg id="mapSvg" viewBox="0 0 900 520" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div id="empty" class="empty">
+      <span class="empty-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 4.9a10 10 0 0 0 0 14.2M19.1 4.9a10 10 0 0 1 0 14.2M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4"/><circle cx="12" cy="12" r="1.6"/></svg></span>
+      <div class="empty-title" data-i18n="devices.empty_title">No devices observed yet</div>
+      <div class="empty-sub" data-i18n="devices.empty">Choose an adapter and start control to observe this LAN.</div>
+      <div class="empty-note" data-i18n="devices.no_router">No router login required.</div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <span class="foot-left">
+      <span id="conn" class="conn off" role="status" aria-label="Disconnected">●</span>
+      <span class="ver">SharkNet <b id="verNum">v3.2.0</b></span>
+    </span>
+    <span class="dedication" dir="auto" data-i18n="footer.dedication">In loving memory of my father · إهداء إلى روح والدي 🤍</span>
+    <span class="foot-note" data-i18n="footer.networks_note">Networks you own only</span>
+  </footer>
+
+  <div id="toasts" class="toasts"></div>
+
+  <!-- lightweight right-click context menu (Copy IP / Copy MAC) -->
+  <div id="ctxMenu" class="ctx-menu hidden" role="menu"></div>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-box">
+      <div class="modal-head"><span id="modalTitle">—</span><button id="modalX" class="a-x" data-i18n-aria-label="common.close" aria-label="Close dialog">✕</button></div>
+      <div id="modalBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- modular front-end (loaded in dependency order; i18n first so t() is ready) -->
+  <script src="/js/i18n.js?v=3.2.0"></script>
+  <script src="/js/a-core.js?v=3.2.0"></script>
+  <script src="/js/h-notify.js?v=3.2.0"></script>
+  <script src="/js/b-app.js?v=3.2.0"></script>
+  <script src="/js/c-panels.js?v=3.2.0"></script>
+  <script src="/js/d-devices-map.js?v=3.2.0"></script>
+  <script src="/js/e-modals.js?v=3.2.0"></script>
+  <script src="/js/f-theme.js?v=3.2.0"></script>
+  <script src="/js/g-settings.js?v=3.2.0"></script>
+</body>
+</html>

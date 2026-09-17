@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SharkNet Notification</title>
+  <!-- Frameless desktop notification host. Renders the SAME card component as the
+       in-app stack (h-notify.js + the shared CSS), so a notification looks
+       identical whether SharkNet is in front or hidden in the tray.
+       This page makes NO API calls and holds no token: the launcher pushes
+       notices into it via snPush(). -->
+  <style>
+    /* Opaque host: WebView2 does not composite a transparent window to the desktop
+       on this stack, so a "transparent" body falls back to the form's white
+       background. The body paints the SharkNet ground (theme-aware, in 3-features
+       .css) and the launcher sizes the native window to hug the stack, so no white
+       rectangle, blank area or scrollbar can appear. overflow:hidden = never scroll. */
+    html,body{margin:0;padding:0;overflow:hidden}
+  </style>
+  <script>
+    // theme + direction are pushed by the launcher before the first notice, so the
+    // desktop toast matches the app's current theme/locale.
+    try {
+      var p = new URLSearchParams(location.search);
+      document.documentElement.setAttribute("data-theme", p.get("theme") || "dark");
+      var lg = p.get("lang") || "en";
+      document.documentElement.setAttribute("lang", lg);
+      document.documentElement.setAttribute("dir", lg === "ar" ? "rtl" : "ltr");
+    } catch (e) {}
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/1-base.css?v=3.2.0" />
+  <link rel="stylesheet" href="/css/2-components.css?v=3.2.0" />
+  <link rel="stylesheet" href="/css/3-features.css?v=3.2.0" />
+</head>
+<body class="sn-desktop">
+  <div id="toasts" class="toasts"></div>
+
+  <script src="/js/a-core.js?v=3.2.0"></script>
+  <script src="/js/h-notify.js?v=3.2.0"></script>
+  <script>
+    // --- the launcher's entry points (called through evaluate_js) ---------------
+    // Push one notice. Clicking the card asks the launcher to restore the EXISTING
+    // SharkNet window (pywebview js_api -> AppRuntime.show_window); it never starts
+    // a second instance and never changes device state.
+    window.snPush = function (notice) {
+      try {
+        window.SNNotify.show({
+          title: notice.title, body: notice.body, category: notice.category,
+          onclick: function () {
+            try {
+              if (window.pywebview && window.pywebview.api && window.pywebview.api.activate)
+                window.pywebview.api.activate();
+            } catch (e) {}
+          },
+        });
+      } catch (e) {}
+      return window.snCount();
+    };
+    // How many cards are on screen — the launcher uses this to size/hide the window.
+    window.snCount = function () {
+      return document.querySelectorAll("#toasts .sn-toast").length;
+    };
+    // Exact rendered height of the stack (its own 6px padding included), so the
+    // launcher can size the native host to EXACTLY the cards — no slack, so no
+    // blank host strip and no scrollbar.
+    window.snHeight = function () {
+      var h = document.getElementById("toasts");
+      return h ? Math.ceil(h.getBoundingClientRect().height) : 0;
+    };
+    // Ask the launcher to re-fit the host to the current stack (called by
+    // h-notify.js after a card is added, expires, or a queued one is promoted).
+    // The bottom edge stays anchored, so the stack grows up / shrinks from the top.
+    window.snReflow = function () {
+      try {
+        if (window.pywebview && window.pywebview.api && window.pywebview.api.reflow)
+          window.pywebview.api.reflow(window.snHeight());
+      } catch (e) {}
+    };
+    window.snClear = function () { try { window.SNNotify.clear(); } catch (e) {} };
+    // Called by h-notify.js the moment the last card leaves the stack. Ask the
+    // launcher to HIDE this frameless host window, so no ghost rectangle / shadow
+    // is left on the desktop after the notification disappears. (Undefined in the
+    // in-app host, where it is a harmless no-op.)
+    window.snOnEmpty = function () {
+      try {
+        if (window.pywebview && window.pywebview.api && window.pywebview.api.empty)
+          window.pywebview.api.empty();
+      } catch (e) {}
+    };
+    window.snTheme = function (theme, lang) {
+      document.documentElement.setAttribute("data-theme", theme || "dark");
+      document.documentElement.setAttribute("lang", lang || "en");
+      document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# SharkNet runtime dependencies (Windows).
+# Enforcement uses ONE mechanism: native Npcap packet I/O driven by ARP
+# spoofing/MITM. No kernel driver, no pydivert/WinDivert, and NO scapy at
+# runtime — Gate 6.4 removed scapy from the production runtime; it is now a
+# test-only dependency (see requirements-dev.txt).
+# Transitive deps are intentionally omitted:
+#   - pywebview pulls in pythonnet + clr_loader (WebView2 backend) on win32
+#   - uvicorn[standard] pulls in websockets, httptools, watchfiles, etc.
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+pywebview>=5.0
+psutil>=5.9.0
+# V3.1 background runtime: system-tray icon/menu + OS balloon notifications.
+# pystray needs Pillow for the icon image. Both are OPTIONAL at runtime — if the
+# import fails SharkNet runs windowed exactly as in V3.0 (see backend/tray.py).
+pystray>=0.19.4
+pillow>=10.0.0
