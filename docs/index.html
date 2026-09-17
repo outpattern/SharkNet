@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="SharkNet is a free, open-source Windows LAN control and network monitoring application." />
+  <meta name="theme-color" content="#07111a" />
+  <meta property="og:title" content="SharkNet — Windows LAN Control & Network Monitoring" />
+  <meta property="og:description" content="Discover, monitor, limit, cut and protect devices on your local network." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/social-preview.svg" />
+  <title>SharkNet — Windows LAN Control & Network Monitoring</title>
+  <link rel="icon" href="assets/sharknet-icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/sharknet-icon-192.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top">
+        <img class="brand-logo" src="assets/sharknet-mark.png" alt="" width="40" height="40" /><span>SharkNet</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#features">Features</a>
+        <a href="#compare">Compare</a>
+        <a href="#install">Install</a>
+        <a href="#review">Review</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">◐</button>
+        <a class="btn btn-ghost hide-sm" href="https://github.com/outpattern/SharkNet" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="btn btn-primary" href="https://github.com/outpattern/SharkNet/releases/download/v3.2.0/SharkNet-Setup-3.2.0.exe">Download</a>
+      </div>
+    </div>
+    <span class="scroll-progress" id="scrollProgress" aria-hidden="true"></span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="status-dot"></span> SharkNet v3.2.0 · Open Source · GPL-3.0</div>
+          <h1>See. Control.<br><span>Protect your LAN.</span></h1>
+          <p class="hero-lead">A modern Windows application for discovering devices, monitoring activity, controlling bandwidth, blocking domains and services, and protecting your local network.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="https://github.com/outpattern/SharkNet/releases/download/v3.2.0/SharkNet-Setup-3.2.0.exe">Download v3.2.0</a>
+            <a class="btn btn-secondary btn-lg" href="https://github.com/outpattern/SharkNet" target="_blank" rel="noreferrer">View source</a>
+          </div>
+          <div class="trust-row">
+            <div><strong>100%</strong><span>Free & open source</span></div>
+            <div><strong>Local</strong><span>No account or cloud</span></div>
+            <div><strong>Windows</strong><span>10 / 11</span></div>
+          </div>
+          <div class="hero-metrics" aria-label="SharkNet highlights">
+            <div><strong data-count="4">4</strong><span>control modes</span></div>
+            <div><strong data-count="47">47</strong><span>service presets</span></div>
+            <div><strong data-count="5">5</strong><span>languages</span></div>
+            <div><strong data-count="0">0</strong><span>cloud account</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="network-motion" aria-hidden="true">
+            <span class="network-ring ring-a"></span><span class="network-ring ring-b"></span>
+            <span class="network-node node-a"></span><span class="network-node node-b"></span><span class="network-node node-c"></span>
+          </div>
+          <figure class="app-screenshot-shell" data-hero-tilt>
+            <img src="assets/sharknet-app-v3.2.png" alt="SharkNet v3.2.0 desktop application dashboard showing network status, devices, traffic monitoring and control modes" width="1154" height="738" fetchpriority="high" />
+            <figcaption><span class="status-dot"></span> Actual SharkNet v3.2.0 interface</figcaption>
+          </figure>
+          <div class="float-chip float-a">↓ <b>Bandwidth control</b></div>
+          <div class="float-chip float-b">✓ <b>ARP protection</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mini-banner"><div class="container banner-inner"><span>Built for local networks.</span><span>Runs on your PC.</span><span>Open source.</span><span>No paid features.</span></div></section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">POWERFUL, WITHOUT THE CLUTTER</span>
+          <h2>Everything you need to understand and control your LAN.</h2>
+          <p>SharkNet combines device discovery, bandwidth control, traffic observation, service blocking and protection in one focused Windows desktop app.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card feature-card-wide"><div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M4.9 4.9a10 10 0 0 1 14.2 0M2.1 2.1a14 14 0 0 1 19.8 0M7.8 7.8a6 6 0 0 1 8.4 0M12 15v6"/></svg></div><h3>Discover every device</h3><p>Scan your local network and identify connected devices using IP, MAC, vendor and best-effort device naming.</p><div class="device-dots"><span>PC</span><span>TV</span><span>IP</span><span>PS</span><span>IoT</span></div></article>
+          <article class="feature-card"><div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4v16m0-16L5 7m3-3 3 3M16 20V4m0 16-3-3m3 3 3-3"/></svg></div><h3>Bandwidth control</h3><p>Set independent upload and download limits for individual devices using SharkNet's userspace limiter.</p></article>
+          <article class="feature-card"><div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M8 4v5"/><circle cx="8" cy="14" r="1"/><path d="M12 14h5M8 17h8"/></svg></div><h3>Visited sites</h3><p>Observe domains from supported DNS, TLS SNI and HTTP signals where those signals are visible.</p></article>
+          <article class="feature-card"><div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.7 5.7l12.6 12.6"/></svg></div><h3>Domain & service blocking</h3><p>Block specific domains or use the built-in service catalog for common streaming, social and gaming services.</p></article>
+          <article class="feature-card"><div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>SharkNet Defender</h3><p>Gateway-MAC verification, ARP-spoof detection, Static ARP Lock and recovery tools help keep control safer.</p></article>
+          <article class="feature-card"><div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9 7 7 0 0 0 9 9z"/><path d="M15 3v3M18 6h3"/></svg></div><h3>Quiet desktop experience</h3><p>Tray operation, theme-aware notifications, Dark/Light modes, five languages and read-only diagnostics.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section modes-section">
+      <div class="container">
+        <div class="section-head compact"><span class="kicker">CONTROL MODES</span><h2>Four modes. Clear behavior.</h2></div>
+        <div class="modes-grid">
+          <article class="mode-card allow"><span>01</span><h3>ALLOW</h3><p>Normal access. No enforcement; interception only occurs if monitoring requires it.</p></article>
+          <article class="mode-card limit"><span>02</span><h3>LIMIT</h3><p>Cap upload and download bandwidth independently for a selected device.</p></article>
+          <article class="mode-card cut"><span>03</span><h3>CUT</h3><p>Stop forwarding while preserving SharkNet's normal blocked-traffic observation semantics.</p></article>
+          <article class="mode-card hard"><span>04</span><h3>HARD CUT</h3><p>Maximum isolation: no forwarding, with observation suppressed according to SharkNet's design.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="container how-grid">
+        <div class="section-head left"><span class="kicker">HOW IT WORKS</span><h2>Simple on the surface. Deliberate underneath.</h2><p>SharkNet uses Npcap and controlled ARP interception on IPv4 networks when a device needs monitoring or enforcement.</p><a class="text-link" href="https://github.com/outpattern/SharkNet/blob/main/docs/how-it-works.md" target="_blank" rel="noreferrer">Read the technical overview →</a></div>
+        <div class="flow">
+          <div><span>1</span><p><b>Discover</b><small>Find devices on your LAN</small></p></div>
+          <div><span>2</span><p><b>Choose</b><small>Monitor or apply a rule</small></p></div>
+          <div><span>3</span><p><b>Enforce</b><small>Allow, limit, cut or hard-cut</small></p></div>
+          <div><span>4</span><p><b>Restore</b><small>Cleanly return devices to normal</small></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compare-section" id="compare">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">SHARKNET VS ALTERNATIVES</span>
+          <h2>One Windows app. A much wider LAN-control toolkit.</h2>
+          <p>NetCut and SelfishNet focus mainly on LAN client control and bandwidth. NetLimiter is powerful for traffic control on the PC where it is installed. SharkNet combines LAN-device control, monitoring, domain/service rules and ARP defense in one local-first workflow.</p>
+        </div>
+
+        <div class="compare-callout" data-reveal>
+          <div class="compare-callout-mark"><img src="assets/sharknet-mark.png" alt="" /></div>
+          <div>
+            <small>WHY SHARKNET STANDS OUT</small>
+            <strong>Control + visibility + defense, together.</strong>
+            <p>The differentiator is not one button. It is the combination of per-device shaping, CUT/HARD CUT isolation, visited-domain visibility, service/domain blocking, ARP protection, clean restore and a modern background desktop experience.</p>
+          </div>
+          <div class="advantage-cloud" aria-label="SharkNet key advantages">
+            <span>Open source</span><span>Free</span><span>HARD CUT</span><span>Visited domains</span><span>Service blocking</span><span>ARP Defender</span><span>Local-first</span><span>Arabic RTL</span>
+          </div>
+        </div>
+
+        <div class="compare-products">
+          <article class="compare-product sharknet-product" data-tilt>
+            <div class="compare-product-head"><span class="compare-logo"><img src="assets/sharknet-mark.png" alt="" /></span><div><strong>SharkNet</strong><small>LAN control + monitoring + defense</small></div></div>
+            <p>Free GPL-3.0 Windows utility that combines per-device bandwidth control, four enforcement modes, visited-domain visibility, domain/service blocking and built-in ARP defense.</p>
+            <span class="product-highlight">Broadest SharkNet-style LAN workflow in this comparison</span>
+          </article>
+          <article class="compare-product" data-tilt>
+            <div class="compare-product-head"><span class="compare-logo text-logo">NC</span><div><strong>NetCut</strong><small>LAN cut + speed control</small></div></div>
+            <p>Established LAN-control product centered on discovering clients, cutting internet access and controlling device speed.</p>
+            <a href="https://arcai.com/" target="_blank" rel="noreferrer">Official site ↗</a>
+          </article>
+          <article class="compare-product" data-tilt>
+            <div class="compare-product-head"><span class="compare-logo text-logo">SN</span><div><strong>SelfishNet</strong><small>Classic LAN bandwidth control</small></div></div>
+            <p>A classic Windows LAN-control utility for discovering clients, setting upload/download caps and blocking devices.</p>
+            <a href="https://selfishnet.org/" target="_blank" rel="noreferrer">Official site ↗</a>
+          </article>
+          <article class="compare-product" data-tilt>
+            <div class="compare-product-head"><span class="compare-logo text-logo">NL</span><div><strong>NetLimiter</strong><small>Deep local-PC application control</small></div></div>
+            <p>A mature Windows traffic-control suite for limiting, prioritizing, blocking and analyzing applications and connections on the computer where NetLimiter is installed.</p>
+            <a href="https://www.netlimiter.com/features" target="_blank" rel="noreferrer">Official features ↗</a>
+          </article>
+        </div>
+
+        <div class="compare-table-wrap" data-reveal>
+          <table class="compare-table compare-table-expanded">
+            <thead><tr><th>Capability</th><th class="is-sharknet">SharkNet</th><th>NetCut</th><th>SelfishNet</th><th>NetLimiter</th></tr></thead>
+            <tbody>
+              <tr><td>Source / pricing model</td><td class="is-sharknet"><span class="yes">GPL-3.0 · free · open source</span></td><td>Proprietary / commercial features</td><td>Public source repository</td><td>Proprietary commercial product</td></tr>
+              <tr><td>Discover devices on the LAN</td><td class="is-sharknet"><span class="yes">Yes — IP, MAC, vendor + names</span></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td class="muted-cell">Not its primary model</td></tr>
+              <tr><td>Control other LAN devices from one PC</td><td class="is-sharknet"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td class="muted-cell">Primarily the local PC</td></tr>
+              <tr><td>Independent per-device download + upload limits</td><td class="is-sharknet"><span class="yes">Built in</span></td><td>Speed control</td><td><span class="yes">Yes</span></td><td class="muted-cell">Per app / connection on local PC</td></tr>
+              <tr><td>Normal access mode without enforcement</td><td class="is-sharknet"><span class="yes">ALLOW</span></td><td>Standard access</td><td>Standard access</td><td>Standard access</td></tr>
+              <tr><td>Internet cut / block for a LAN device</td><td class="is-sharknet"><span class="yes">CUT</span></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td class="muted-cell">Blocks local apps / filters</td></tr>
+              <tr><td>Maximum-isolation mode distinct from normal cut</td><td class="is-sharknet"><span class="yes">HARD CUT</span></td><td class="muted-cell">No comparable mode documented</td><td class="muted-cell">No comparable mode documented</td><td class="muted-cell">Different local-PC blocker model</td></tr>
+              <tr><td>Monitor a LAN device without applying a speed/cut rule</td><td class="is-sharknet"><span class="yes">Dedicated monitoring flow</span></td><td>Client monitoring</td><td>Basic traffic visibility</td><td class="muted-cell">Excellent local-app monitoring</td></tr>
+              <tr><td>Visited-domain visibility per LAN device</td><td class="is-sharknet"><span class="yes">DNS + TLS SNI + HTTP signals</span></td><td class="muted-cell">Not a core documented feature</td><td class="muted-cell">Not documented in project feature list</td><td class="muted-cell">Connection/domain visibility for local PC traffic</td></tr>
+              <tr><td>Block a specific domain for one LAN device</td><td class="is-sharknet"><span class="yes">Yes</span></td><td class="muted-cell">Not a core documented feature</td><td class="muted-cell">Not documented</td><td class="muted-cell">Domain filters for local-PC traffic</td></tr>
+              <tr><td>Built-in service presets (streaming / social / gaming)</td><td class="is-sharknet"><span class="yes">Yes</span></td><td class="muted-cell">Not documented as equivalent presets</td><td class="muted-cell">Not documented</td><td class="muted-cell">Custom filters rather than LAN-device service presets</td></tr>
+              <tr><td>Gateway-MAC verification + ARP-spoof detection</td><td class="is-sharknet"><span class="yes">SharkNet Defender</span></td><td>Defender offered separately</td><td class="muted-cell">No built-in defensive layer documented</td><td class="muted-cell">Not the product focus</td></tr>
+              <tr><td>Static ARP Lock + recovery tools</td><td class="is-sharknet"><span class="yes">Built in</span></td><td class="muted-cell">Separate defense tooling</td><td class="muted-cell">Not documented</td><td class="muted-cell">Not applicable to its main workflow</td></tr>
+              <tr><td>Clean ARP restore when control stops</td><td class="is-sharknet"><span class="yes">Designed into shutdown / restore flow</span></td><td>Restores access when control ends</td><td>ARP-spoof based control</td><td class="muted-cell">No ARP interception required</td></tr>
+              <tr><td>No router password required</td><td class="is-sharknet"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td></tr>
+              <tr><td>No SharkNet-style cloud account required for core use</td><td class="is-sharknet"><span class="yes">No account · no SharkNet cloud backend</span></td><td>Account used for some membership features</td><td>No account model in the public project</td><td>Desktop licensing; remote features available</td></tr>
+              <tr><td>Local-first / no telemetry claim</td><td class="is-sharknet"><span class="yes">Yes</span></td><td class="muted-cell">Different commercial model</td><td class="muted-cell">Not documented as a privacy guarantee</td><td class="muted-cell">Different commercial model</td></tr>
+              <tr><td>System tray + background runtime + notifications</td><td class="is-sharknet"><span class="yes">Built in</span></td><td>Desktop background operation</td><td class="muted-cell">Basic desktop utility</td><td><span class="yes">Mature desktop background experience</span></td></tr>
+              <tr><td>Dark + Light themes</td><td class="is-sharknet"><span class="yes">Built in</span></td><td class="muted-cell">Varies by product UI</td><td class="muted-cell">Classic UI</td><td>Customizable UI</td></tr>
+              <tr><td>Five locales including Arabic RTL</td><td class="is-sharknet"><span class="yes">EN · AR · ES · FR · ZH-CN</span></td><td class="muted-cell">Different localization set</td><td class="muted-cell">Not documented</td><td class="muted-cell">Different localization set</td></tr>
+              <tr><td>Advanced per-application rules on the controller PC</td><td class="is-sharknet">Not SharkNet's focus</td><td class="muted-cell">Not the main focus</td><td class="muted-cell">Not the main focus</td><td><span class="yes">NetLimiter strength: limits, priorities, blocker, filters, scheduler + quotas</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="comparison-note"><strong>Scope matters:</strong> this matrix compares features relevant to SharkNet's LAN-device-control workflow. NetLimiter is substantially deeper for per-application shaping and rule automation on the Windows PC itself. Third-party features, licensing and plans can change; links above point to their current public documentation.</p>
+      </div>
+    </section>
+
+    <section class="section install-section" id="install">
+      <div class="container">
+        <div class="install-heading">
+          <div class="section-head left">
+            <span class="kicker">INSTALLATION</span>
+            <h2>How to install SharkNet.</h2>
+            <p>The normal setup is intentionally straightforward: installer, Npcap prerequisite, administrator permission, then choose the correct adapter.</p>
+          </div>
+          <a class="btn btn-primary btn-lg install-download" href="https://github.com/outpattern/SharkNet/releases/download/v3.2.0/SharkNet-Setup-3.2.0.exe">Download v3.2.0 <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="install-timeline">
+          <article class="install-step" data-tilt><span class="step-no">01</span><div class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"/></svg></div><h3>Download</h3><p>Get the official SharkNet v3.2.0 Windows installer directly from the GitHub release.</p></article>
+          <article class="install-step" data-tilt><span class="step-no">02</span><div class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Install Npcap if needed</h3><p>SharkNet checks for Npcap. If it is missing, install Npcap with its default options, then continue.</p></article>
+          <article class="install-step" data-tilt><span class="step-no">03</span><div class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Run as Administrator</h3><p>Approve the Windows UAC prompt. Low-level packet I/O requires administrator privileges.</p></article>
+          <article class="install-step" data-tilt><span class="step-no">04</span><div class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><path d="M7 7.5l3 2.5m7-2.5L14 10M12 15v5"/></svg></div><h3>Select your adapter</h3><p>Choose the Ethernet or Wi-Fi adapter showing your real gateway, then start control and let devices populate.</p></article>
+          <article class="install-step" data-tilt><span class="step-no">05</span><div class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 6"/><path d="M4 20h16"/></svg></div><h3>Control, then restore cleanly</h3><p>Use ALLOW, LIMIT, CUT, HARD CUT or Monitor as needed. Stop &amp; restore — or exit normally — to return devices to normal.</p></article>
+        </div>
+        <div class="install-note" data-reveal><span>!</span><p><strong>Use responsibly.</strong> Only manage networks you own, administer, or have explicit permission to control.</p></div>
+      </div>
+    </section>
+
+    <section class="section requirement-section" id="requirements">
+      <div class="container requirement-wrap">
+        <div><span class="kicker">SYSTEM REQUIREMENTS</span><h2>Built for Windows.</h2><p>No router credentials. No dedicated hardware. SharkNet runs locally on the Windows PC managing the network.</p></div>
+        <div class="requirements-list"><div><span>OS</span><b>Windows 10 / 11 · 64-bit</b></div><div><span>Privileges</span><b>Administrator</b></div><div><span>Packet I/O</span><b>Npcap</b></div><div><span>Network</span><b>IPv4 Ethernet / Wi-Fi LAN</b></div></div>
+      </div>
+    </section>
+
+    <section class="section privacy-section">
+      <div class="container privacy-grid">
+        <div class="privacy-badge"><small>LOCAL-FIRST</small><strong>Your network data stays under your control.</strong></div>
+        <div><span class="kicker">PRIVACY BY DEFAULT</span><h2>No SharkNet account. No SharkNet cloud backend. No telemetry.</h2><p>SharkNet stores only the local state needed for features such as settings, device names and optional saved rules. Visited-site history is session-only and is not persisted by the current application.</p><a class="text-link" href="https://github.com/outpattern/SharkNet/blob/main/PRIVACY.md" target="_blank" rel="noreferrer">Read the privacy policy →</a></div>
+      </div>
+    </section>
+
+    <section class="section review-section" id="review">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">HONEST REVIEW</span>
+          <h2>What SharkNet does well — and where it still has limits.</h2>
+          <p>No fake five-star score. SharkNet is a focused Windows LAN utility with a distinctive mix of control, visibility and self-defense, but it deliberately does not try to be a cloud dashboard, router appliance or full enterprise policy system.</p>
+        </div>
+
+        <div class="review-summary" data-reveal>
+          <div class="review-pulse" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div><small>THE SHORT VERSION</small><strong>Strong when you want direct, local LAN control from one Windows PC.</strong><p>Its value is the combination: four enforcement modes, monitoring, service/domain blocking, Defender, background operation and no required SharkNet account or cloud backend.</p></div>
+          <div class="review-fit"><span>Good fit</span><b>Home labs · personal LANs · small administered networks</b></div>
+        </div>
+
+        <div class="pros-cons-grid">
+          <article class="procon-card pros" data-tilt>
+            <div class="procon-title"><span class="procon-icon">+</span><div><small>PROS</small><h3>Why it stands out</h3></div></div>
+            <ul>
+              <li><span>✓</span><div><b>Free and open source</b><small>No paid SharkNet feature tier.</small></div></li>
+              <li><span>✓</span><div><b>Local-first</b><small>No SharkNet cloud backend or account needed for core operation.</small></div></li>
+              <li><span>✓</span><div><b>Control + observation in one UI</b><small>ALLOW, LIMIT, CUT, HARD CUT, Monitor and visited-domain visibility stay conceptually separate.</small></div></li>
+              <li><span>✓</span><div><b>Built-in defensive layer</b><small>Gateway-MAC checks, ARP-spoof alerts, Static ARP Lock and clean restore behavior.</small></div></li>
+              <li><span>✓</span><div><b>Real Windows app experience</b><small>Installer, tray/background runtime, notifications, dark/light and five languages including Arabic RTL.</small></div></li>
+            </ul>
+          </article>
+
+          <article class="procon-card cons" data-tilt>
+            <div class="procon-title"><span class="procon-icon">−</span><div><small>CONS</small><h3>What to know first</h3></div></div>
+            <ul>
+              <li><span>•</span><div><b>Windows and IPv4 focused</b><small>This is not a cross-platform whole-network appliance.</small></div></li>
+              <li><span>•</span><div><b>Npcap + Administrator required</b><small>That comes with the low-level packet-control design.</small></div></li>
+              <li><span>•</span><div><b>No schedules or device groups yet</b><small>Rules are intentionally session-oriented rather than a parental-control automation suite.</small></div></li>
+              <li><span>•</span><div><b>Bandwidth limiting is userspace</b><small>Useful for per-device caps, but not equivalent to kernel-level router shaping.</small></div></li>
+              <li><span>•</span><div><b>Visibility has protocol limits</b><small>Modern encrypted DNS/ECH and some router flow-offload behavior can reduce what a host-based tool can observe or intercept.</small></div></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section support-section" id="support">
+      <div class="container support-card">
+        <div class="support-copy"><span class="kicker">SUPPORT OPEN SOURCE</span><h2>Help keep SharkNet free.</h2><p>SharkNet is free and open source. Sponsorship is optional and helps support development, testing, documentation, maintenance and future releases. There are no paid or sponsor-only features.</p><div class="support-actions"><a class="btn btn-sponsor btn-lg" href="https://github.com/sponsors/outpattern" target="_blank" rel="noreferrer">♥ Sponsor on GitHub</a><a class="btn btn-secondary btn-lg" href="https://github.com/outpattern/SharkNet" target="_blank" rel="noreferrer">Star the repository</a></div></div>
+        <div class="support-tiers"><div><span>$2</span><b>Supporter</b><small>Help keep SharkNet moving.</small></div><div class="featured"><span>$5</span><b>Project Supporter</b><small>Support testing and maintenance.</small></div><div><span>$10</span><b>Sustainer</b><small>Ongoing open-source support.</small></div></div>
+      </div>
+    </section>
+
+    <section class="section download-section" id="download">
+      <div class="container download-card">
+        <div><span class="kicker">LATEST RELEASE</span><h2>SharkNet v3.2.0</h2><p>First public open-source release for Windows 10 and 11.</p><div class="hash"><span>SHA-256</span><code id="sha">bfc40eb7386e866e247daf059ee4b4ff02e05031e8c9ff52808e8a4ca3c697d4</code><button id="copyHash">Copy</button></div></div>
+        <div class="download-actions"><a class="btn btn-primary btn-lg" href="https://github.com/outpattern/SharkNet/releases/download/v3.2.0/SharkNet-Setup-3.2.0.exe">Download installer</a><a class="text-link" href="https://github.com/outpattern/SharkNet/releases" target="_blank" rel="noreferrer">Release notes →</a></div>
+      </div>
+    </section>
+
+    <section class="section faq-section" id="faq">
+      <div class="container">
+        <div class="section-head compact"><span class="kicker">FAQ</span><h2>Before you install.</h2></div>
+        <div class="faq-list">
+          <details><summary>Is SharkNet free?</summary><p>Yes. SharkNet is free and open source under GPL-3.0.</p></details>
+          <details><summary>Do I need my router password?</summary><p>No. SharkNet operates from a Windows PC on the local network and does not require router login credentials.</p></details>
+          <details><summary>Why does SharkNet require Administrator privileges?</summary><p>Npcap packet I/O and low-level network operations require elevated Windows privileges.</p></details>
+          <details><summary>Does SharkNet decrypt HTTPS?</summary><p>No. SharkNet does not decrypt TLS.</p></details>
+          <details><summary>What is the difference between CUT and HARD CUT?</summary><p>CUT blocks forwarding while preserving normal CUT observation behavior. HARD CUT provides maximum isolation and suppresses observation according to SharkNet's implementation.</p></details>
+          <details><summary>Can I support development?</summary><p>Yes. You can optionally sponsor the project through GitHub Sponsors. Sponsorship does not unlock paid features.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div><a class="footer-logo-link" href="#top" aria-label="SharkNet home"><img class="footer-logo-full" src="assets/sharknet-logo.png" alt="SharkNet Internet Security" /></a><p>Free, open-source Windows LAN control and network monitoring.</p></div>
+      <div class="footer-links">
+        <div><b>Project</b><a href="https://github.com/outpattern/SharkNet">GitHub</a><a href="https://github.com/outpattern/SharkNet/releases">Releases</a><a href="https://github.com/sponsors/outpattern">Sponsor</a></div>
+        <div><b>Explore</b><a href="#compare">Compare</a><a href="#install">Installation</a><a href="#review">Honest review</a><a href="privacy.html">Privacy</a></div>
+      </div>
+    </div>
+    <div class="container dedication" aria-label="Project dedication">
+      <span class="dedication-heart" aria-hidden="true">♥</span>
+      <div>
+        <span>A Sadaqah Jariyah in loving memory of my father</span>
+        <small lang="ar" dir="rtl">صدقة جارية على روح والدي</small>
+      </div>
+    </div>
+    <div class="container footer-bottom"><span>SharkNet v3.2.0</span><span>Use only on networks you own, administer, or have permission to manage.</span></div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top" title="Back to top">
+    <span aria-hidden="true">↑</span>
+  </button>
+  <script src="script.js"></script>
+</body>
+</html>
